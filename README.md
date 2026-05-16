@@ -38,13 +38,27 @@ yarn install
 yarn start
 ```
 
+Open `http://localhost:3000`. The demo is fully client-side and does not require a backend. The npm scripts set the legacy Create React App environment flags needed for modern Node versions; the existing Yarn workflow can still be used if the same environment variables are supplied manually.
+
 Useful scripts:
 
 ```bash
-yarn build
+npm run build
 yarn test
 ```
 
 ## Status
 
 Archived portfolio project. The goal of this repository is to show early React Hooks and reducer-driven animation work, not to represent current production React practices.
+
+## Cloudflare Pages
+
+- Pages project name: `pedal-rush`
+- GitHub repository: `BorisThoris/pedal-rush`
+- Production branch: `master`
+- Root directory: `.`
+- Build command: `SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS=--openssl-legacy-provider npx react-scripts build`
+- Build output directory: `build`
+- Public URL target: `https://pedal-rush.pages.dev/`
+
+Do not enable Cloudflare Access for the demo deployment. Leave frame-blocking headers unset so the portfolio can iframe the public build.
