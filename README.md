@@ -34,17 +34,17 @@ This is a React 16 single-page car speed demo. The player toggles gas/brake peda
 ## Run Locally
 
 ```bash
-yarn install
-yarn start
+npm install
+npm start
 ```
 
-Open `http://localhost:3000`. The demo is fully client-side and does not require a backend. The npm scripts set the legacy Create React App environment flags needed for modern Node versions; the existing Yarn workflow can still be used if the same environment variables are supplied manually.
+Open `http://localhost:3000`. The demo is fully client-side and does not require a backend. This legacy Create React App project is pinned to Node 20 via `.nvmrc` and `package.json` engines; the npm scripts use `cross-env` to apply the required compatibility flags on Windows, macOS, Linux, and Cloudflare Pages.
 
 Useful scripts:
 
 ```bash
 npm run build
-yarn test
+npm test -- --watchAll=false
 ```
 
 ## Status
@@ -57,7 +57,8 @@ Archived portfolio project. The goal of this repository is to show early React H
 - GitHub repository: `BorisThoris/pedal-rush`
 - Production branch: `master`
 - Root directory: `.`
-- Build command: `SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS=--openssl-legacy-provider npx react-scripts build`
+- Node version: `20`
+- Build command: `npm run build`
 - Build output directory: `build`
 - Public URL target: `https://pedal-rush.pages.dev/`
 

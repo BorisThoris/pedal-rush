@@ -3,15 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cross-env": "^7.0.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
   },
   "scripts": {
-    "start": "set SKIP_PREFLIGHT_CHECK=true&& set NODE_OPTIONS=--openssl-legacy-provider&& react-scripts start",
-    "build": "set SKIP_PREFLIGHT_CHECK=true&& set NODE_OPTIONS=--openssl-legacy-provider&& react-scripts build",
-    "test": "set SKIP_PREFLIGHT_CHECK=true&& set NODE_OPTIONS=--openssl-legacy-provider&& react-scripts test --runInBand",
+    "start": "cross-env SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build": "cross-env SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "test": "cross-env SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS=--openssl-legacy-provider react-scripts test --runInBand --watchAll=false",
     "eject": "react-scripts eject"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": ">=10"
   },
   "eslintConfig": {
     "extends": "react-app"
