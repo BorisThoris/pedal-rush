@@ -12,7 +12,10 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run",
     "meta": "node scripts/generate-project-meta.mjs",
-    "meta:check": "node scripts/generate-project-meta.mjs --check"
+    "meta:check": "node scripts/generate-project-meta.mjs --check",
+    "shots": "node scripts/capture-project-shots.mjs",
+    "social": "node scripts/generate-social-preview.mjs",
+    "social:check": "node scripts/generate-social-preview.mjs --check"
   },
   "engines": {
     "node": "20.x",
