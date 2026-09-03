@@ -1,0 +1,161 @@
+{
+  "$schema": "./scripts/project.meta.schema.json",
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-03T20:39:09.014Z",
+  "generatedBy": "scripts/generate-project-meta.mjs",
+  "identity": {
+    "slug": "pedal-rush",
+    "repoName": "my-hooks-demo",
+    "packageName": "pedal-rush",
+    "version": "0.1.0",
+    "title": "Pedal Rush",
+    "subtitle": "React Hooks animation demo",
+    "description": "An early React Hooks project focused on reducer-driven interaction and animated UI state.",
+    "tags": [
+      "React",
+      "Hooks",
+      "Archive"
+    ],
+    "accent": "#84cc16",
+    "classification": "web-app",
+    "showcaseTier": "more"
+  },
+  "links": {
+    "deploymentUrl": "https://pedal-rush-git.pages.dev/",
+    "localUrl": "http://127.0.0.1:4111/",
+    "repository": "https://github.com/BorisThoris/pedal-rush"
+  },
+  "runtime": {
+    "packageManager": "npm",
+    "nodeEngine": "20.x",
+    "buildCommand": "npm run build",
+    "buildOutput": "build",
+    "runCommand": "npm start",
+    "devPort": 4111,
+    "scripts": [
+      "start",
+      "build",
+      "preview",
+      "test",
+      "meta",
+      "meta:check"
+    ]
+  },
+  "capture": {
+    "route": "/"
+  },
+  "media": {
+    "source": "portfolio-capture",
+    "directory": "C:/Users/Gaming PC/Desktop/Repos/portfolio/public/project-shots/pedal-rush/latest",
+    "primary": "/project-shots/pedal-rush/latest/card.jpg",
+    "images": [
+      {
+        "profile": "card",
+        "file": "card.jpg",
+        "path": "/project-shots/pedal-rush/latest/card.jpg",
+        "bytes": 131107,
+        "width": 1600,
+        "height": 900,
+        "capturedAt": "2026-08-27T12:15:47.909Z"
+      },
+      {
+        "profile": "desktop",
+        "file": "desktop.jpg",
+        "path": "/project-shots/pedal-rush/latest/desktop.jpg",
+        "bytes": 129182,
+        "width": 1440,
+        "height": 900,
+        "capturedAt": "2026-08-27T12:15:49.878Z"
+      },
+      {
+        "profile": "full",
+        "file": "full.jpg",
+        "path": "/project-shots/pedal-rush/latest/full.jpg",
+        "bytes": 109954,
+        "width": 1440,
+        "height": 900,
+        "capturedAt": "2026-08-27T12:15:53.847Z"
+      },
+      {
+        "profile": "mobile",
+        "file": "mobile.jpg",
+        "path": "/project-shots/pedal-rush/latest/mobile.jpg",
+        "bytes": 51063,
+        "width": 430,
+        "height": 932,
+        "capturedAt": "2026-08-27T12:15:51.844Z"
+      }
+    ]
+  },
+  "stack": {
+    "framework": "React",
+    "language": "JavaScript",
+    "runtimeTargets": [
+      "web"
+    ],
+    "libraries": [
+      {
+        "name": "react",
+        "version": "^18.2.0"
+      },
+      {
+        "name": "react-dom",
+        "version": "^18.2.0"
+      },
+      {
+        "name": "vite",
+        "version": "^5.4.21"
+      }
+    ],
+    "testing": [
+      "vitest",
+      "@testing-library/react"
+    ],
+    "dependencyCount": 2,
+    "devDependencyCount": 6
+  },
+  "metrics": {
+    "sourceFiles": 11,
+    "testFiles": 1,
+    "sourceLines": 1622,
+    "largestDirectories": [
+      {
+        "directory": "src",
+        "files": 7
+      },
+      {
+        "directory": ".",
+        "files": 2
+      },
+      {
+        "directory": "scripts",
+        "files": 2
+      }
+    ],
+    "hasReadme": true,
+    "hasTests": true,
+    "hasCi": false,
+    "hasDocs": false
+  },
+  "scores": {
+    "priorityScore": 52,
+    "demoabilityScore": 66,
+    "depthScore": 50,
+    "polishScore": 50,
+    "uniquenessScore": 50,
+    "maintenanceScore": 44
+  },
+  "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
+  "git": {
+    "branch": "master",
+    "head": "92ac844",
+    "lastCommitDate": "2026-05-20T23:49:12+03:00",
+    "lastCommitSubject": "Preserve verified work before AI refine pedal-rush",
+    "commitCount": 18,
+    "remote": "https://github.com/BorisThoris/pedal-rush.git"
+  },
+  "readme": {
+    "file": "README.md",
+    "heading": "Pedal Rush"
+  }
+}
