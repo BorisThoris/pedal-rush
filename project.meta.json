@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-03T20:39:09.014Z",
+  "generatedAt": "2026-09-03T20:45:32.193Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -117,7 +117,7 @@
   "metrics": {
     "sourceFiles": 11,
     "testFiles": 1,
-    "sourceLines": 1622,
+    "sourceLines": 1625,
     "largestDirectories": [
       {
         "directory": "src",
@@ -148,10 +148,10 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "92ac844",
-    "lastCommitDate": "2026-05-20T23:49:12+03:00",
-    "lastCommitSubject": "Preserve verified work before AI refine pedal-rush",
-    "commitCount": 18,
+    "head": "dec3521",
+    "lastCommitDate": "2026-09-03T23:42:37+03:00",
+    "lastCommitSubject": "Wire up the meta scripts",
+    "commitCount": 20,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
