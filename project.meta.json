@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T20:41:26.962Z",
+  "generatedAt": "2026-09-14T20:52:46.422Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -132,7 +132,7 @@
   "metrics": {
     "sourceFiles": 15,
     "testFiles": 1,
-    "sourceLines": 2562,
+    "sourceLines": 2579,
     "largestDirectories": [
       {
         "directory": "src",
@@ -163,10 +163,10 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "10fbb4e",
-    "lastCommitDate": "2026-09-04T00:53:30+03:00",
-    "lastCommitSubject": "Wire up the shots and social scripts",
-    "commitCount": 23,
+    "head": "7da9a61",
+    "lastCommitDate": "2026-09-14T23:43:24+03:00",
+    "lastCommitSubject": "Add the icon set and the one-command metadata refresh",
+    "commitCount": 24,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
