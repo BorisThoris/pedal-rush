@@ -61,6 +61,13 @@ export default {
     "imageUrlPath": "/og-image.jpg"
   },
 
+  // The icon set is rendered from favicon.svg by scripts/generate-app-icons.mjs.
+  icons: {
+    "background": "#1a2e05",
+    "themeColor": "#1a2e05",
+    "shortName": "Pedal Rush"
+  },
+
   media: {
     sourceDir: path.join(portfolioRoot, "public", "project-shots", "pedal-rush", "latest"),
     publicPathPrefix: "/project-shots/pedal-rush/latest",

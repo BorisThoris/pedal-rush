@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-03T21:50:30.560Z",
+  "generatedAt": "2026-09-14T20:41:26.962Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -41,7 +41,10 @@
       "meta:check",
       "shots",
       "social",
-      "social:check"
+      "social:check",
+      "icons",
+      "icons:check",
+      "meta:refresh"
     ]
   },
   "capture": {
@@ -127,9 +130,9 @@
     "devDependencyCount": 6
   },
   "metrics": {
-    "sourceFiles": 13,
+    "sourceFiles": 15,
     "testFiles": 1,
-    "sourceLines": 2086,
+    "sourceLines": 2562,
     "largestDirectories": [
       {
         "directory": "src",
@@ -137,7 +140,7 @@
       },
       {
         "directory": "scripts",
-        "files": 4
+        "files": 6
       },
       {
         "directory": ".",
@@ -160,10 +163,10 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "4a6bf42",
-    "lastCommitDate": "2026-09-03T23:46:15+03:00",
-    "lastCommitSubject": "Refresh project metadata",
-    "commitCount": 21,
+    "head": "10fbb4e",
+    "lastCommitDate": "2026-09-04T00:53:30+03:00",
+    "lastCommitSubject": "Wire up the shots and social scripts",
+    "commitCount": 23,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
