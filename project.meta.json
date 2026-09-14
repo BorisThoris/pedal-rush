@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T20:52:46.422Z",
+  "generatedAt": "2026-09-14T21:36:24.999Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -132,7 +132,7 @@
   "metrics": {
     "sourceFiles": 15,
     "testFiles": 1,
-    "sourceLines": 2579,
+    "sourceLines": 2590,
     "largestDirectories": [
       {
         "directory": "src",
@@ -149,7 +149,7 @@
     ],
     "hasReadme": true,
     "hasTests": true,
-    "hasCi": false,
+    "hasCi": true,
     "hasDocs": false
   },
   "scores": {
@@ -163,10 +163,10 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "7da9a61",
-    "lastCommitDate": "2026-09-14T23:43:24+03:00",
-    "lastCommitSubject": "Add the icon set and the one-command metadata refresh",
-    "commitCount": 24,
+    "head": "47f5a84",
+    "lastCommitDate": "2026-09-14T23:58:06+03:00",
+    "lastCommitSubject": "Sync the metadata toolkit scripts and regenerate project.meta.json",
+    "commitCount": 25,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
