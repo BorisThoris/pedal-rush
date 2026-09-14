@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T22:05:41.819Z",
+  "generatedAt": "2026-09-14T22:27:16.408Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -52,53 +52,53 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "C:/Users/Gaming PC/Desktop/Repos/my-hooks-demo/project-media",
+    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 132326,
+        "bytes": 133194,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-03T21:36:21.125Z"
+        "capturedAt": "2026-09-14T22:27:10.502Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 130400,
+        "bytes": 131241,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-03T21:36:22.554Z"
+        "capturedAt": "2026-09-14T22:27:11.912Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 110909,
+        "bytes": 110892,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-03T21:36:25.383Z"
+        "capturedAt": "2026-09-14T22:27:14.745Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 51498,
+        "bytes": 52089,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-03T21:36:23.955Z"
+        "capturedAt": "2026-09-14T22:27:13.314Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 98928,
+        "bytes": 99724,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-03T21:36:26.827Z"
+        "capturedAt": "2026-09-14T22:27:16.238Z"
       }
     ]
   },
@@ -163,11 +163,11 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "7ee6462",
-    "lastCommitDate": "2026-09-15T00:39:20+03:00",
-    "lastCommitSubject": "Gate pushes on a current link-preview card and icon set",
-    "commitCount": 26,
-    "remote": "https://github.com/BorisThoris/pedal-rush.git"
+    "head": "430520c",
+    "lastCommitDate": "2026-09-15T01:05:44+03:00",
+    "lastCommitSubject": "Refresh screenshots, card, icons and metadata after every deployment",
+    "commitCount": 27,
+    "remote": "https://github.com/BorisThoris/pedal-rush"
   },
   "readme": {
     "file": "README.md",
