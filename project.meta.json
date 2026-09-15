@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-14T22:27:16.408Z",
+  "generatedAt": "2026-09-15T12:15:32.841Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -9,12 +9,13 @@
     "packageName": "pedal-rush",
     "version": "0.1.0",
     "title": "Pedal Rush",
-    "subtitle": "React Hooks animation demo",
-    "description": "An early React Hooks project focused on reducer-driven interaction and animated UI state.",
+    "subtitle": "Hold the gas, thread the traffic",
+    "description": "A 2D traffic-dodging game in React: hold gas to accelerate, brake to scrub speed, switch lanes and thread through traffic for score and combo, with collisions costing health and a spinout when it runs out. A requestAnimationFrame game loop with CSS animation, built on Vite.",
     "tags": [
+      "Game",
       "React",
-      "Hooks",
-      "Archive"
+      "Vite",
+      "Arcade"
     ],
     "accent": "#84cc16",
     "classification": "web-app",
@@ -52,7 +53,7 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
+    "directory": "C:/Users/Gaming PC/Desktop/Repos/my-hooks-demo/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
@@ -62,7 +63,7 @@
         "bytes": 133194,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-14T22:27:10.502Z"
+        "capturedAt": "2026-09-14T22:49:43.432Z"
       },
       {
         "profile": "desktop",
@@ -71,7 +72,7 @@
         "bytes": 131241,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T22:27:11.912Z"
+        "capturedAt": "2026-09-14T22:49:43.434Z"
       },
       {
         "profile": "full",
@@ -80,7 +81,7 @@
         "bytes": 110892,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T22:27:14.745Z"
+        "capturedAt": "2026-09-14T22:49:43.437Z"
       },
       {
         "profile": "mobile",
@@ -89,7 +90,7 @@
         "bytes": 52089,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-14T22:27:13.314Z"
+        "capturedAt": "2026-09-14T22:49:43.438Z"
       },
       {
         "profile": "og",
@@ -98,7 +99,7 @@
         "bytes": 99724,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-14T22:27:16.238Z"
+        "capturedAt": "2026-09-14T22:49:43.441Z"
       }
     ]
   },
@@ -132,7 +133,7 @@
   "metrics": {
     "sourceFiles": 15,
     "testFiles": 1,
-    "sourceLines": 2599,
+    "sourceLines": 2639,
     "largestDirectories": [
       {
         "directory": "src",
@@ -163,11 +164,11 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "430520c",
-    "lastCommitDate": "2026-09-15T01:05:44+03:00",
-    "lastCommitSubject": "Refresh screenshots, card, icons and metadata after every deployment",
-    "commitCount": 27,
-    "remote": "https://github.com/BorisThoris/pedal-rush"
+    "head": "489b0af",
+    "lastCommitDate": "2026-09-15T01:49:43+03:00",
+    "lastCommitSubject": "Let the refresh wait up to 90 minutes for a queued Cloudflare build [meta-bot]",
+    "commitCount": 29,
+    "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
     "file": "README.md",

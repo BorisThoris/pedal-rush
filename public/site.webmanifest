@@ -1,7 +1,7 @@
 {
   "name": "Pedal Rush",
   "short_name": "Pedal Rush",
-  "description": "An early React Hooks project focused on reducer-driven interaction and animated UI state.",
+  "description": "A 2D traffic-dodging game in React: hold gas to accelerate, brake to scrub speed, switch lanes and thread through traffic for score and combo, with collisions costing health and a spinout when it runs out. A requestAnimationFrame game loop with CSS animation, built on Vite.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

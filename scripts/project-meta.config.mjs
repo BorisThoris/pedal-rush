@@ -18,12 +18,13 @@ export default {
 
   curated: {
     "title": "Pedal Rush",
-    "subtitle": "React Hooks animation demo",
-    "description": "An early React Hooks project focused on reducer-driven interaction and animated UI state.",
+    "subtitle": "Hold the gas, thread the traffic",
+    "description": "A 2D traffic-dodging game in React: hold gas to accelerate, brake to scrub speed, switch lanes and thread through traffic for score and combo, with collisions costing health and a spinout when it runs out. A requestAnimationFrame game loop with CSS animation, built on Vite.",
     "tags": [
+      "Game",
       "React",
-      "Hooks",
-      "Archive"
+      "Vite",
+      "Arcade"
     ],
     "accent": "#84cc16",
     "deploymentUrl": "https://pedal-rush-git.pages.dev/",
@@ -56,6 +57,7 @@ export default {
   // Graph tags, and the static directory the image is published from.
   social: {
     "htmlFile": "index.html",
+    "pageTitle": "Pedal Rush",
     "staticDir": "public",
     "imageName": "og-image.jpg",
     "imageUrlPath": "/og-image.jpg"
