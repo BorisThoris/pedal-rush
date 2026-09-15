@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-15T12:15:32.841Z",
+  "generatedAt": "2026-09-15T12:30:46.939Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -53,53 +53,53 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "C:/Users/Gaming PC/Desktop/Repos/my-hooks-demo/project-media",
+    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 133194,
+        "bytes": 132457,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-14T22:49:43.432Z"
+        "capturedAt": "2026-09-15T12:30:40.786Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 131241,
+        "bytes": 130550,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T22:49:43.434Z"
+        "capturedAt": "2026-09-15T12:30:42.333Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 110892,
+        "bytes": 111084,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-14T22:49:43.437Z"
+        "capturedAt": "2026-09-15T12:30:45.318Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 52089,
+        "bytes": 51877,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-14T22:49:43.438Z"
+        "capturedAt": "2026-09-15T12:30:43.804Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 99724,
+        "bytes": 98923,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-14T22:49:43.441Z"
+        "capturedAt": "2026-09-15T12:30:46.826Z"
       }
     ]
   },
@@ -164,11 +164,11 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "489b0af",
-    "lastCommitDate": "2026-09-15T01:49:43+03:00",
-    "lastCommitSubject": "Let the refresh wait up to 90 minutes for a queued Cloudflare build [meta-bot]",
-    "commitCount": 29,
-    "remote": "https://github.com/BorisThoris/pedal-rush.git"
+    "head": "c540f4b",
+    "lastCommitDate": "2026-09-15T15:18:50+03:00",
+    "lastCommitSubject": "Say what the app actually is: specific title, blurb and tags for the card",
+    "commitCount": 30,
+    "remote": "https://github.com/BorisThoris/pedal-rush"
   },
   "readme": {
     "file": "README.md",
