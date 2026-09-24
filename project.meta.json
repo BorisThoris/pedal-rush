@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-17T10:26:02.669Z",
+  "generatedAt": "2026-09-24T12:58:50.807Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -45,7 +45,9 @@
       "social:check",
       "icons",
       "icons:check",
-      "meta:refresh"
+      "meta:refresh",
+      "trailers",
+      "trailers:check"
     ]
   },
   "capture": {
@@ -53,53 +55,53 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "C:/Users/Gaming PC/Desktop/Repos/my-hooks-demo/project-media",
+    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 132544,
+        "bytes": 132496,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-17T10:25:56.596Z"
+        "capturedAt": "2026-09-24T12:58:44.659Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 130451,
+        "bytes": 130610,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-17T10:25:57.968Z"
+        "capturedAt": "2026-09-24T12:58:46.107Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 111017,
+        "bytes": 111098,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-17T10:26:00.700Z"
+        "capturedAt": "2026-09-24T12:58:49.273Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 51571,
+        "bytes": 52089,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-17T10:25:59.337Z"
+        "capturedAt": "2026-09-24T12:58:47.663Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 99190,
+        "bytes": 98947,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-17T10:26:02.112Z"
+        "capturedAt": "2026-09-24T12:58:50.701Z"
       }
     ]
   },
@@ -131,17 +133,17 @@
     "devDependencyCount": 6
   },
   "metrics": {
-    "sourceFiles": 15,
+    "sourceFiles": 16,
     "testFiles": 1,
-    "sourceLines": 2639,
+    "sourceLines": 3194,
     "largestDirectories": [
       {
-        "directory": "src",
+        "directory": "scripts",
         "files": 7
       },
       {
-        "directory": "scripts",
-        "files": 6
+        "directory": "src",
+        "files": 7
       },
       {
         "directory": ".",
@@ -164,11 +166,11 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "dd8c77f",
-    "lastCommitDate": "2026-09-15T12:30:46+00:00",
-    "lastCommitSubject": "Refresh screenshots, card, icons and metadata [meta-bot]",
-    "commitCount": 31,
-    "remote": "https://github.com/BorisThoris/pedal-rush.git"
+    "head": "0aee7a9",
+    "lastCommitDate": "2026-09-24T15:45:34+03:00",
+    "lastCommitSubject": "Update the metadata toolkit scripts: trailers step, refresh --commit, capture.skip",
+    "commitCount": 33,
+    "remote": "https://github.com/BorisThoris/pedal-rush"
   },
   "readme": {
     "file": "README.md",

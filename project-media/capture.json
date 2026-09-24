@@ -1,8 +1,8 @@
 {
   "slug": "pedal-rush",
-  "capturedAt": "2026-09-17T10:26:02.192Z",
-  "source": "explicit",
-  "url": "http://127.0.0.1:8088/pedal-rush/",
+  "capturedAt": "2026-09-24T12:58:50.724Z",
+  "source": "deployment",
+  "url": "https://pedal-rush-git.pages.dev/",
   "recipe": {
     "route": "/"
   },
@@ -12,7 +12,7 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 132544,
+      "bytes": 132496,
       "status": "captured"
     },
     {
@@ -20,7 +20,7 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 130451,
+      "bytes": 130610,
       "status": "captured"
     },
     {
@@ -28,7 +28,7 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 51571,
+      "bytes": 52089,
       "status": "captured"
     },
     {
@@ -36,7 +36,7 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 111017,
+      "bytes": 111098,
       "status": "captured"
     },
     {
@@ -44,7 +44,7 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 99190,
+      "bytes": 98947,
       "status": "captured"
     }
   ]
