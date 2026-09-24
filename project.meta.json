@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T16:31:10.254Z",
+  "generatedAt": "2026-09-24T16:48:20.888Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -62,28 +62,28 @@
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 133235,
+        "bytes": 133194,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-24T16:31:04.294Z"
+        "capturedAt": "2026-09-24T16:48:14.981Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 131257,
+        "bytes": 130576,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T16:31:05.724Z"
+        "capturedAt": "2026-09-24T16:48:16.412Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 111098,
+        "bytes": 111109,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T16:31:08.642Z"
+        "capturedAt": "2026-09-24T16:48:19.312Z"
       },
       {
         "profile": "mobile",
@@ -92,16 +92,16 @@
         "bytes": 52089,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-24T16:31:07.158Z"
+        "capturedAt": "2026-09-24T16:48:17.830Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 98947,
+        "bytes": 99736,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-24T16:31:10.084Z"
+        "capturedAt": "2026-09-24T16:48:20.721Z"
       }
     ]
   },
@@ -166,10 +166,10 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "90491c5",
-    "lastCommitDate": "2026-09-24T19:16:45+03:00",
-    "lastCommitSubject": "Update the metadata toolkit scripts: trailers step, refresh --commit, capture.skip",
-    "commitCount": 38,
+    "head": "605afdf",
+    "lastCommitDate": "2026-09-24T16:31:10Z",
+    "lastCommitSubject": "Refresh screenshots, card, icons and metadata [meta-bot]",
+    "commitCount": 39,
     "remote": "https://github.com/BorisThoris/pedal-rush"
   },
   "readme": {
