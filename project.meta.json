@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T14:44:54.649Z",
+  "generatedAt": "2026-09-24T16:31:10.254Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -62,46 +62,46 @@
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 132498,
+        "bytes": 133235,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-24T14:44:48.508Z"
+        "capturedAt": "2026-09-24T16:31:04.294Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 131240,
+        "bytes": 131257,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T14:44:49.968Z"
+        "capturedAt": "2026-09-24T16:31:05.724Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 110903,
+        "bytes": 111098,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T14:44:52.883Z"
+        "capturedAt": "2026-09-24T16:31:08.642Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 51884,
+        "bytes": 52089,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-24T14:44:51.400Z"
+        "capturedAt": "2026-09-24T16:31:07.158Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 99717,
+        "bytes": 98947,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-24T14:44:54.459Z"
+        "capturedAt": "2026-09-24T16:31:10.084Z"
       }
     ]
   },
@@ -135,7 +135,7 @@
   "metrics": {
     "sourceFiles": 16,
     "testFiles": 1,
-    "sourceLines": 3220,
+    "sourceLines": 3243,
     "largestDirectories": [
       {
         "directory": "scripts",
@@ -166,10 +166,10 @@
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
     "branch": "master",
-    "head": "424b657",
-    "lastCommitDate": "2026-09-24T16:47:05+03:00",
+    "head": "90491c5",
+    "lastCommitDate": "2026-09-24T19:16:45+03:00",
     "lastCommitSubject": "Update the metadata toolkit scripts: trailers step, refresh --commit, capture.skip",
-    "commitCount": 36,
+    "commitCount": 38,
     "remote": "https://github.com/BorisThoris/pedal-rush"
   },
   "readme": {
