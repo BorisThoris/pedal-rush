@@ -1,10 +1,10 @@
 {
   "slug": "pedal-rush",
   "source": "public/favicon.svg",
-  "sourceHash": "b9ec7b711fbae25c",
+  "sourceHash": "354924641da4a9e8",
   "outputDir": "public",
   "urlPrefix": "/",
-  "renderedAt": "2026-09-27T17:26:20.701Z",
+  "renderedAt": "2026-09-27T20:16:35.396Z",
   "files": [
     "favicon.ico",
     "apple-touch-icon.png",

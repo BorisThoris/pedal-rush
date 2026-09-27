@@ -1,4 +1,4 @@
-// Curated identity and reproducible captures from the real game.
+// Curated identity and reproducible captures from the original game.
 import path from 'node:path';
 const portfolioRoot = process.env.PORTFOLIO_ROOT ?? String.raw`C:\Users\Gaming PC\Desktop\Repos\portfolio`;
 export default {
@@ -6,11 +6,10 @@ export default {
   "classification": "web-app",
   "curated": {
     "title": "Pedal Rush",
-    "subtitle": "A multilane endless traffic run",
-    "description": "An endless four-lane driving game with modeled cars and a coastal road. Steer through fair traffic waves, hold gas for a burst, brake to make space and build a score from overtakes and close calls. Includes keyboard and touch controls, pause, collision results, retry and a saved personal best.",
+    "subtitle": "The original blue MX-5, with an endless road ahead",
+    "description": "A side-view endless driving game with the original blue MX-5, spinning wheels, illustrated scenery and gas/brake pedals. Accelerate from rest, coast or brake, change between three lanes, avoid traffic and chase a saved personal best. Includes keyboard and touch controls, health, pause and retry.",
     "tags": [
       "Game",
-      "Three.js",
       "React",
       "Endless Driving"
     ],
@@ -30,22 +29,15 @@ export default {
         "type": "waitFor",
         "target": {
           "role": "button",
-          "name": "START RUN"
+          "name": "Gas",
+          "exact": true
         },
         "state": "visible"
       },
       {
-        "type": "click",
-        "target": {
-          "role": "button",
-          "name": "START RUN"
-        },
-        "label": "start a real traffic run"
-      },
-      {
         "type": "key",
-        "key": "ArrowUp",
-        "holdMs": 2600
+        "key": "Space",
+        "holdMs": 6000
       }
     ],
     "waitAfterReadyMs": 100
@@ -58,7 +50,7 @@ export default {
     "uniquenessScore": 50,
     "maintenanceScore": 44
   },
-  "analysisNotes": "Playable modeled traffic runner, preserving the original blue car, navy dashboard, gas/brake and lane-control identity. Verified real keyboard/touch runs, collision/retry and persisted best.",
+  "analysisNotes": "Original side-view MX-5 and scenery restored from authored assets. Three lanes, real acceleration/coasting/braking, fair traffic, health and retry. Keyboard, simultaneous touch controls, pause and saved best verified in a real browser.",
   "social": {
     "htmlFile": "index.html",
     "pageTitle": "Pedal Rush",
@@ -67,8 +59,8 @@ export default {
     "imageUrlPath": "/og-image.jpg"
   },
   "icons": {
-    "background": "#1a2e05",
-    "themeColor": "#1a2e05",
+    "background": "#10283e",
+    "themeColor": "#10283e",
     "shortName": "Pedal Rush"
   },
   "media": {
@@ -80,7 +72,7 @@ export default {
     "items": [
       {
         "id": "tour",
-        "title": "Pedal Rush: a real four-lane traffic run",
+        "title": "Pedal Rush: original MX-5, three-lane drive",
         "kind": "capture",
         "inputs": [
           "src",
@@ -88,68 +80,60 @@ export default {
           "public"
         ],
         "source": "local",
-        "music": "project-media/music/tour.m4a",
         "posterAt": 0.5,
         "recipe": {
           "route": "/",
           "viewport": {
-            "width": 1280,
-            "height": 720
+            "width": 1440,
+            "height": 900
           },
-          "durationMs": 14000,
+          "durationMs": 20000,
           "setup": {
             "actions": [
               {
                 "type": "waitFor",
                 "target": {
                   "role": "button",
-                  "name": "START RUN"
+                  "name": "Gas",
+                  "exact": true
                 },
                 "state": "visible"
-              },
-              {
-                "type": "click",
-                "target": {
-                  "role": "button",
-                  "name": "START RUN"
-                },
-                "label": "start a real traffic run"
               }
             ],
-            "waitAfterReadyMs": 200
+            "waitAfterReadyMs": 100
           },
           "timeline": [
             {
               "type": "key",
-              "key": "ArrowUp",
-              "holdMs": 3000
+              "key": "Space",
+              "holdMs": 6500
             },
             {
               "type": "press",
-              "key": "ArrowLeft"
+              "key": "ArrowUp"
             },
             {
               "type": "key",
-              "key": "ArrowUp",
-              "holdMs": 2200
+              "key": "Space",
+              "holdMs": 3500
             },
             {
               "type": "press",
-              "key": "ArrowRight"
+              "key": "ArrowDown"
             },
             {
               "type": "key",
-              "key": "ArrowDown",
-              "holdMs": 900
+              "key": "s",
+              "holdMs": 1200
             },
             {
               "type": "press",
-              "key": "ArrowRight"
+              "key": "ArrowDown"
             },
             {
               "type": "key",
-              "key": "ArrowUp",
-              "holdMs": 2200
+              "key": "Space",
+              "holdMs": 4000
             }
           ]
         }

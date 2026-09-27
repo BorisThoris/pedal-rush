@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T17:36:27.450Z",
+  "generatedAt": "2026-09-27T20:16:35.523Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -9,11 +9,10 @@
     "packageName": "pedal-rush",
     "version": "0.1.0",
     "title": "Pedal Rush",
-    "subtitle": "A multilane endless traffic run",
-    "description": "An endless four-lane driving game with modeled cars and a coastal road. Steer through fair traffic waves, hold gas for a burst, brake to make space and build a score from overtakes and close calls. Includes keyboard and touch controls, pause, collision results, retry and a saved personal best.",
+    "subtitle": "The original blue MX-5, with an endless road ahead",
+    "description": "A side-view endless driving game with the original blue MX-5, spinning wheels, illustrated scenery and gas/brake pedals. Accelerate from rest, coast or brake, change between three lanes, avoid traffic and chase a saved personal best. Includes keyboard and touch controls, health, pause and retry.",
     "tags": [
       "Game",
-      "Three.js",
       "React",
       "Endless Driving"
     ],
@@ -59,75 +58,68 @@
         "type": "waitFor",
         "target": {
           "role": "button",
-          "name": "START RUN"
+          "name": "Gas",
+          "exact": true
         },
         "state": "visible"
       },
       {
-        "type": "click",
-        "target": {
-          "role": "button",
-          "name": "START RUN"
-        },
-        "label": "start a real traffic run"
-      },
-      {
         "type": "key",
-        "key": "ArrowUp",
-        "holdMs": 2600
+        "key": "Space",
+        "holdMs": 6000
       }
     ],
     "waitAfterReadyMs": 100
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
+    "directory": "C:/Users/Gaming PC/Documents/Codex/2026-09-27/new-chat/work/publish-pedal/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 147607,
+        "bytes": 145127,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-27T17:34:48.997Z"
+        "capturedAt": "2026-09-27T20:16:07.119Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 140946,
+        "bytes": 133265,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T17:35:19.302Z"
+        "capturedAt": "2026-09-27T20:16:13.597Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 117891,
+        "bytes": 112817,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T17:36:06.257Z"
+        "capturedAt": "2026-09-27T20:16:26.580Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 50605,
+        "bytes": 46807,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-27T17:35:34.877Z"
+        "capturedAt": "2026-09-27T20:16:20.067Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 112360,
+        "bytes": 109903,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-27T17:36:27.274Z"
+        "capturedAt": "2026-09-27T20:16:33.089Z"
       }
     ],
     "trailers": [
@@ -162,10 +154,6 @@
         "version": "^18.2.0"
       },
       {
-        "name": "three",
-        "version": "0.180.0"
-      },
-      {
         "name": "vite",
         "version": "^5.4.21"
       }
@@ -174,21 +162,21 @@
       "vitest",
       "@testing-library/react"
     ],
-    "dependencyCount": 3,
+    "dependencyCount": 2,
     "devDependencyCount": 6
   },
   "metrics": {
-    "sourceFiles": 23,
-    "testFiles": 4,
-    "sourceLines": 3782,
+    "sourceFiles": 25,
+    "testFiles": 5,
+    "sourceLines": 3542,
     "largestDirectories": [
       {
         "directory": "scripts",
-        "files": 10
+        "files": 12
       },
       {
         "directory": "src",
-        "files": 10
+        "files": 9
       },
       {
         "directory": ".",
@@ -196,7 +184,7 @@
       },
       {
         "directory": "public",
-        "files": 1
+        "files": 2
       }
     ],
     "hasReadme": true,
@@ -212,17 +200,17 @@
     "uniquenessScore": 50,
     "maintenanceScore": 44
   },
-  "analysisNotes": "Playable modeled traffic runner, preserving the original blue car, navy dashboard, gas/brake and lane-control identity. Verified real keyboard/touch runs, collision/retry and persisted best.",
+  "analysisNotes": "Original side-view MX-5 and scenery restored from authored assets. Three lanes, real acceleration/coasting/braking, fair traffic, health and retry. Keyboard, simultaneous touch controls, pause and saved best verified in a real browser.",
   "git": {
-    "branch": "master",
-    "head": "7e3c461",
-    "lastCommitDate": "2026-09-27T20:30:45+03:00",
-    "lastCommitSubject": "Capture current driving footage and refresh project showcase",
-    "commitCount": 46,
-    "remote": "https://github.com/BorisThoris/pedal-rush"
+    "branch": "codex/pedal-coastal-drive",
+    "head": "000f00f",
+    "lastCommitDate": "2026-09-27T23:15:55+03:00",
+    "lastCommitSubject": "Restore original side-view Pedal Rush and complete pedal-driven endless play",
+    "commitCount": 48,
+    "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
     "file": "README.md",
-    "heading": "Pedal Rush — The Coastline"
+    "heading": "Pedal Rush"
   }
 }

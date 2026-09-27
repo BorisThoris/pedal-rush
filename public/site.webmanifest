@@ -1,12 +1,12 @@
 {
   "name": "Pedal Rush",
   "short_name": "Pedal Rush",
-  "description": "An endless four-lane driving game with modeled cars and a coastal road. Steer through fair traffic waves, hold gas for a burst, brake to make space and build a score from overtakes and close calls. Includes keyboard and touch controls, pause, collision results, retry and a saved personal best.",
+  "description": "A side-view endless driving game with the original blue MX-5, spinning wheels, illustrated scenery and gas/brake pedals. Accelerate from rest, coast or brake, change between three lanes, avoid traffic and chase a saved personal best. Includes keyboard and touch controls, health, pause and retry.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#1a2e05",
-  "theme_color": "#1a2e05",
+  "background_color": "#10283e",
+  "theme_color": "#10283e",
   "icons": [
     {
       "src": "/icon-192.png",
