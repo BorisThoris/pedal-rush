@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "tour",
+      "title": "Pedal Rush: hold the gas, thread the traffic",
+      "kind": "capture",
+      "inputsHash": "cf004f07edfb493a119d69a9ef1a307665083693e8773bf887ca95ec32a69c99",
+      "builtAt": "2026-09-27T13:01:03.994Z",
+      "source": "project-media/.captures/tour.webm",
+      "file": "public/trailers/tour.mp4",
+      "poster": "public/trailers/tour.jpg",
+      "urlPath": "/trailers/tour.mp4",
+      "posterUrlPath": "/trailers/tour.jpg",
+      "bytes": 4228168,
+      "width": 1280,
+      "height": 720,
+      "duration": 22,
+      "fps": 30,
+      "orientation": "landscape",
+      "music": "project-media/music/tour.m4a",
+      "stats": {
+        "mean": 128,
+        "std": 35,
+        "dark": 0,
+        "light": 0.002,
+        "colours": 86
+      }
+    }
+  ]
+}

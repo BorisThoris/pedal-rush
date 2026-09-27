@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-24T16:48:20.888Z",
+  "generatedAt": "2026-09-27T13:02:30.931Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -47,61 +47,107 @@
       "icons:check",
       "meta:refresh",
       "trailers",
-      "trailers:check"
+      "trailers:check",
+      "test:media",
+      "test:media:e2e"
     ]
   },
   "capture": {
-    "route": "/"
+    "route": "/",
+    "actions": [
+      {
+        "type": "waitFor",
+        "target": {
+          "role": "button",
+          "name": "Gas"
+        },
+        "state": "visible",
+        "label": "wait for the pedals"
+      },
+      {
+        "type": "key",
+        "key": "ArrowUp",
+        "holdMs": 3000,
+        "label": "hold the gas"
+      },
+      {
+        "type": "press",
+        "key": "ArrowLeft",
+        "label": "switch lane"
+      },
+      {
+        "type": "key",
+        "key": "ArrowUp",
+        "holdMs": 800,
+        "label": "keep the speed"
+      }
+    ],
+    "waitAfterReadyMs": 300
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
+    "directory": "C:/Users/GAMING~1/AppData/Local/Temp/media-rollout-xQlb2r/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 133194,
+        "bytes": 131590,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-24T16:48:14.981Z"
+        "capturedAt": "2026-09-27T13:02:10.826Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 130576,
+        "bytes": 129723,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T16:48:16.412Z"
+        "capturedAt": "2026-09-27T13:02:15.702Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 111109,
+        "bytes": 111212,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-24T16:48:19.312Z"
+        "capturedAt": "2026-09-27T13:02:25.418Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 52089,
+        "bytes": 52351,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-24T16:48:17.830Z"
+        "capturedAt": "2026-09-27T13:02:20.430Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 99736,
+        "bytes": 96723,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-24T16:48:20.721Z"
+        "capturedAt": "2026-09-27T13:02:30.141Z"
+      }
+    ],
+    "trailers": [
+      {
+        "id": "tour",
+        "title": "Pedal Rush: hold the gas, thread the traffic",
+        "url": "https://pedal-rush-git.pages.dev/trailers/tour.mp4",
+        "poster": "https://pedal-rush-git.pages.dev/trailers/tour.jpg",
+        "file": "public/trailers/tour.mp4",
+        "bytes": 4228168,
+        "width": 1280,
+        "height": 720,
+        "duration": 22,
+        "orientation": "landscape",
+        "builtAt": "2026-09-27T13:01:03.994Z"
       }
     ]
   },
@@ -133,13 +179,13 @@
     "devDependencyCount": 6
   },
   "metrics": {
-    "sourceFiles": 16,
-    "testFiles": 1,
-    "sourceLines": 3243,
+    "sourceFiles": 19,
+    "testFiles": 3,
+    "sourceLines": 4094,
     "largestDirectories": [
       {
         "directory": "scripts",
-        "files": 7
+        "files": 10
       },
       {
         "directory": "src",
@@ -165,12 +211,12 @@
   },
   "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
   "git": {
-    "branch": "master",
-    "head": "605afdf",
-    "lastCommitDate": "2026-09-24T16:31:10Z",
+    "branch": "HEAD",
+    "head": "f35be27",
+    "lastCommitDate": "2026-09-24T16:48:20+00:00",
     "lastCommitSubject": "Refresh screenshots, card, icons and metadata [meta-bot]",
-    "commitCount": 39,
-    "remote": "https://github.com/BorisThoris/pedal-rush"
+    "commitCount": 40,
+    "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
     "file": "README.md",

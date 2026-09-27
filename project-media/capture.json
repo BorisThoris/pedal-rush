@@ -1,10 +1,39 @@
 {
   "slug": "pedal-rush",
-  "capturedAt": "2026-09-24T16:48:20.766Z",
+  "capturedAt": "2026-09-27T13:02:30.319Z",
   "source": "deployment",
   "url": "https://pedal-rush-git.pages.dev/",
   "recipe": {
-    "route": "/"
+    "route": "/",
+    "actions": [
+      {
+        "type": "waitFor",
+        "target": {
+          "role": "button",
+          "name": "Gas"
+        },
+        "state": "visible",
+        "label": "wait for the pedals"
+      },
+      {
+        "type": "key",
+        "key": "ArrowUp",
+        "holdMs": 3000,
+        "label": "hold the gas"
+      },
+      {
+        "type": "press",
+        "key": "ArrowLeft",
+        "label": "switch lane"
+      },
+      {
+        "type": "key",
+        "key": "ArrowUp",
+        "holdMs": 800,
+        "label": "keep the speed"
+      }
+    ],
+    "waitAfterReadyMs": 300
   },
   "profiles": [
     {
@@ -12,40 +41,75 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 133194,
-      "status": "captured"
+      "bytes": 131590,
+      "status": "captured",
+      "stats": {
+        "mean": 124,
+        "std": 47,
+        "dark": 0,
+        "light": 0.01,
+        "colours": 92
+      }
     },
     {
       "profile": "desktop",
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 130576,
-      "status": "captured"
+      "bytes": 129723,
+      "status": "captured",
+      "stats": {
+        "mean": 134,
+        "std": 35,
+        "dark": 0,
+        "light": 0,
+        "colours": 86
+      }
     },
     {
       "profile": "mobile",
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 52089,
-      "status": "captured"
+      "bytes": 52351,
+      "status": "captured",
+      "stats": {
+        "mean": 120,
+        "std": 47,
+        "dark": 0,
+        "light": 0.02,
+        "colours": 106
+      }
     },
     {
       "profile": "full",
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 111109,
-      "status": "captured"
+      "bytes": 111212,
+      "status": "captured",
+      "stats": {
+        "mean": 135,
+        "std": 35,
+        "dark": 0,
+        "light": 0,
+        "colours": 85
+      }
     },
     {
       "profile": "og",
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 99736,
-      "status": "captured"
+      "bytes": 96723,
+      "status": "captured",
+      "stats": {
+        "mean": 131,
+        "std": 37,
+        "dark": 0,
+        "light": 0.01,
+        "colours": 86
+      }
     }
   ]
 }
