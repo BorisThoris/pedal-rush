@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T20:16:35.523Z",
+  "generatedAt": "2026-09-27T20:21:07.446Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -125,16 +125,16 @@
     "trailers": [
       {
         "id": "tour",
-        "title": "Pedal Rush: a real four-lane traffic run",
+        "title": "Pedal Rush: original MX-5, three-lane drive",
         "url": "https://pedal-rush-git.pages.dev/trailers/tour.mp4",
         "poster": "https://pedal-rush-git.pages.dev/trailers/tour.jpg",
         "file": "public/trailers/tour.mp4",
-        "bytes": 1412025,
-        "width": 1280,
-        "height": 720,
-        "duration": 14,
+        "bytes": 3354070,
+        "width": 1440,
+        "height": 900,
+        "duration": 20,
         "orientation": "landscape",
-        "builtAt": "2026-09-27T17:29:44.615Z"
+        "builtAt": "2026-09-27T20:20:33.942Z"
       }
     ]
   },
@@ -168,7 +168,7 @@
   "metrics": {
     "sourceFiles": 25,
     "testFiles": 5,
-    "sourceLines": 3542,
+    "sourceLines": 3638,
     "largestDirectories": [
       {
         "directory": "scripts",
@@ -203,10 +203,10 @@
   "analysisNotes": "Original side-view MX-5 and scenery restored from authored assets. Three lanes, real acceleration/coasting/braking, fair traffic, health and retry. Keyboard, simultaneous touch controls, pause and saved best verified in a real browser.",
   "git": {
     "branch": "codex/pedal-coastal-drive",
-    "head": "000f00f",
-    "lastCommitDate": "2026-09-27T23:15:55+03:00",
-    "lastCommitSubject": "Restore original side-view Pedal Rush and complete pedal-driven endless play",
-    "commitCount": 48,
+    "head": "b8d9d4c",
+    "lastCommitDate": "2026-09-27T23:20:32+03:00",
+    "lastCommitSubject": "Preserve video content length and validate range stream lifecycle",
+    "commitCount": 50,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {

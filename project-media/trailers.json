@@ -3,28 +3,27 @@
   "items": [
     {
       "id": "tour",
-      "title": "Pedal Rush: a real four-lane traffic run",
+      "title": "Pedal Rush: original MX-5, three-lane drive",
       "kind": "capture",
-      "inputsHash": "fc02870628a88c398700597273edc925799e1ca84e6961c427f2ade8b28b4ab1",
-      "builtAt": "2026-09-27T17:29:44.615Z",
+      "inputsHash": "41698699660ed914a1a7ec9b8127d3c18215d404978b2622b02dbe67f577b042",
+      "builtAt": "2026-09-27T20:20:33.942Z",
       "source": "project-media/.captures/tour.webm",
       "file": "public/trailers/tour.mp4",
       "poster": "public/trailers/tour.jpg",
       "urlPath": "/trailers/tour.mp4",
       "posterUrlPath": "/trailers/tour.jpg",
-      "bytes": 1412025,
-      "width": 1280,
-      "height": 720,
-      "duration": 14,
+      "bytes": 3354070,
+      "width": 1440,
+      "height": 900,
+      "duration": 20,
       "fps": 30,
       "orientation": "landscape",
-      "music": "project-media/music/tour.m4a",
       "stats": {
-        "mean": 124,
-        "std": 45,
+        "mean": 129,
+        "std": 49,
         "dark": 0,
-        "light": 0,
-        "colours": 59
+        "light": 0.007,
+        "colours": 79
       }
     }
   ]
