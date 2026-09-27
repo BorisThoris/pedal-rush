@@ -1,36 +1,25 @@
-// Metadata inputs for this repository - unique to my-hooks-demo.
-//
-// Everything here is curated by hand: identity, commands, the screenshot recipe
-// (capture), the recorded trailer (trailers.items, kind: capture) and where the
-// card, icons and trailers are published. scripts/generate-project-meta.mjs
-// derives the rest into project.meta.json; scripts/project-media.test.mjs
-// checks that everything here was actually produced.
-//   npm run meta:refresh   trailers -> shots -> social -> icons -> meta
-//   npm run test:media     the media contract
-
+// Curated identity and reproducible captures from the real game.
 import path from 'node:path';
-
 const portfolioRoot = process.env.PORTFOLIO_ROOT ?? String.raw`C:\Users\Gaming PC\Desktop\Repos\portfolio`;
-
 export default {
   "slug": "pedal-rush",
   "classification": "web-app",
   "curated": {
     "title": "Pedal Rush",
-    "subtitle": "Hold the gas, thread the traffic",
-    "description": "A 2D traffic-dodging game in React: hold gas to accelerate, brake to scrub speed, switch lanes and thread through traffic for score and combo, with collisions costing health and a spinout when it runs out. A requestAnimationFrame game loop with CSS animation, built on Vite.",
+    "subtitle": "A multilane endless traffic run",
+    "description": "An endless four-lane driving game with modeled cars and a coastal road. Steer through fair traffic waves, hold gas for a burst, brake to make space and build a score from overtakes and close calls. Includes keyboard and touch controls, pause, collision results, retry and a saved personal best.",
     "tags": [
       "Game",
+      "Three.js",
       "React",
-      "Vite",
-      "Arcade"
+      "Endless Driving"
     ],
-    "accent": "#84cc16",
+    "accent": "#398cd1",
     "deploymentUrl": "https://pedal-rush-git.pages.dev/",
     "localUrl": "http://127.0.0.1:4111/",
     "buildCommand": "npm run build",
     "buildOutput": "build",
-    "runCommand": "npm start",
+    "runCommand": "npm start -- --host 127.0.0.1 --port 4111",
     "devPort": 4111,
     "showcaseTier": "more"
   },
@@ -41,30 +30,25 @@ export default {
         "type": "waitFor",
         "target": {
           "role": "button",
-          "name": "Gas"
+          "name": "START RUN"
         },
-        "state": "visible",
-        "label": "wait for the pedals"
+        "state": "visible"
+      },
+      {
+        "type": "click",
+        "target": {
+          "role": "button",
+          "name": "START RUN"
+        },
+        "label": "start a real traffic run"
       },
       {
         "type": "key",
         "key": "ArrowUp",
-        "holdMs": 3000,
-        "label": "hold the gas"
-      },
-      {
-        "type": "press",
-        "key": "ArrowLeft",
-        "label": "switch lane"
-      },
-      {
-        "type": "key",
-        "key": "ArrowUp",
-        "holdMs": 800,
-        "label": "keep the speed"
+        "holdMs": 2600
       }
     ],
-    "waitAfterReadyMs": 300
+    "waitAfterReadyMs": 100
   },
   "scores": {
     "priorityScore": 52,
@@ -74,7 +58,7 @@ export default {
     "uniquenessScore": 50,
     "maintenanceScore": 44
   },
-  "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
+  "analysisNotes": "Playable modeled traffic runner, preserving the original blue car, navy dashboard, gas/brake and lane-control identity. Verified real keyboard/touch runs, collision/retry and persisted best.",
   "social": {
     "htmlFile": "index.html",
     "pageTitle": "Pedal Rush",
@@ -96,14 +80,14 @@ export default {
     "items": [
       {
         "id": "tour",
-        "title": "Pedal Rush: hold the gas, thread the traffic",
+        "title": "Pedal Rush: a real four-lane traffic run",
         "kind": "capture",
         "inputs": [
           "src",
           "index.html",
           "public"
         ],
-        "source": "deployment",
+        "source": "local",
         "music": "project-media/music/tour.m4a",
         "posterAt": 0.5,
         "recipe": {
@@ -112,71 +96,60 @@ export default {
             "width": 1280,
             "height": 720
           },
-          "durationMs": 22000,
+          "durationMs": 14000,
           "setup": {
             "actions": [
               {
                 "type": "waitFor",
                 "target": {
                   "role": "button",
-                  "name": "Gas"
+                  "name": "START RUN"
                 },
-                "state": "visible",
-                "label": "wait for the pedals"
+                "state": "visible"
+              },
+              {
+                "type": "click",
+                "target": {
+                  "role": "button",
+                  "name": "START RUN"
+                },
+                "label": "start a real traffic run"
               }
             ],
-            "waitAfterReadyMs": 600
+            "waitAfterReadyMs": 200
           },
           "timeline": [
             {
               "type": "key",
               "key": "ArrowUp",
-              "holdMs": 4000,
-              "label": "gas"
+              "holdMs": 3000
             },
             {
               "type": "press",
-              "key": "ArrowLeft",
-              "label": "lane left"
+              "key": "ArrowLeft"
             },
             {
               "type": "key",
               "key": "ArrowUp",
-              "holdMs": 2500,
-              "label": "gas"
+              "holdMs": 2200
             },
             {
               "type": "press",
-              "key": "ArrowRight",
-              "label": "lane right"
-            },
-            {
-              "type": "key",
-              "key": "ArrowUp",
-              "holdMs": 3000,
-              "label": "gas"
-            },
-            {
-              "type": "press",
-              "key": "ArrowRight",
-              "label": "lane right"
+              "key": "ArrowRight"
             },
             {
               "type": "key",
               "key": "ArrowDown",
-              "holdMs": 900,
-              "label": "brake"
+              "holdMs": 900
             },
             {
               "type": "press",
-              "key": "ArrowLeft",
-              "label": "lane left"
+              "key": "ArrowRight"
             },
             {
               "type": "key",
               "key": "ArrowUp",
-              "holdMs": 5000,
-              "label": "gas"
+              "holdMs": 2200
             }
           ]
         }

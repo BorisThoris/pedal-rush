@@ -1,384 +1,133 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { createRoadScene } from "./game/scene";
+import { createInitialGame, stepGame, steer } from "./game/simulation";
 import "./App.css";
 
-import carBody from "./myHookComponents/myCarHookComponent/images/image2vector.svg";
-import wheel from "./myHookComponents/myCarHookComponent/images/wheel2vector.svg";
-import flame from "./myHookComponents/myCarHookComponent/images/flameSvg.svg";
-import smoke from "./myHookComponents/myCarHookComponent/images/smoke.png";
-import gasPedal from "./myHookComponents/myCarHookComponent/images/gasPedal.png";
-import brakePedal from "./myHookComponents/myCarHookComponent/images/breakPedal.png";
-import sky from "./images/skyBackground.jpg";
-import mountains from "./images/mountainsBackground.png";
-import road from "./images/background2.png";
+const BEST_KEY = "pedal-rush:coastline-best";
+function readBest() { try { return Math.max(0, Number(window.localStorage.getItem(BEST_KEY)) || 0); } catch { return 0; } }
+const snapshot = game => ({ phase: game.phase, speed: game.speed, score: game.score, distance: game.distance,
+  boost: game.boost, boosting: game.boosting, lane: game.targetLane, passes: game.passes,
+  nearMisses: game.nearMisses, combo: game.combo, message: game.message, messageTime: game.messageTime });
 
-export const MAX_SPEED = 150;
-export const LANES = [-22, 0, 22];
-export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-const ACCELERATION = 68;
-const BRAKE_POWER = 126;
-const ROLLING_DRAG = 15;
-const PLAYER_Y = 70;
-const COLLISION_Y = 8;
-const PASS_Y = 86;
-const SPAWN_Y = -42;
-const RECOVERY_MS = 1050;
-
-const trafficColors = [
-  "hue-rotate(105deg) saturate(1.45) brightness(0.94)",
-  "hue-rotate(185deg) saturate(1.2) brightness(1.04)",
-  "hue-rotate(285deg) saturate(1.35) brightness(0.98)",
-  "sepia(0.45) saturate(1.6) hue-rotate(330deg) brightness(1.02)"
-];
-
-export function nextLane(currentLane, direction) {
-  return clamp(currentLane + direction, 0, LANES.length - 1);
+function createSound() {
+  const Context = window.AudioContext || window.webkitAudioContext;
+  if (!Context) return null;
+  const context = new Context(), gain = context.createGain(), filter = context.createBiquadFilter();
+  filter.type = "lowpass"; filter.frequency.value = 220;
+  gain.gain.value = 0; filter.connect(gain); gain.connect(context.destination);
+  const oscillators = [1, 1.5].map(ratio => { const oscillator = context.createOscillator();
+    oscillator.type = "sawtooth"; oscillator.frequency.value = 45 * ratio; oscillator.connect(filter); oscillator.start(); return oscillator; });
+  return { resume: () => context.resume().catch(() => {}), update(game, enabled) {
+    const now=context.currentTime;
+    oscillators.forEach((oscillator,index)=>oscillator.frequency.setTargetAtTime((35+game.speed*1.5)*(index?1.5:1),now,.12));
+    filter.frequency.setTargetAtTime(game.boosting?420:240,now,.1);
+    gain.gain.setTargetAtTime(enabled && game.phase === "running" ? .035 : 0,now,.1);
+  }, dispose: () => { oscillators.forEach(o=>o.stop()); context.close().catch(()=>{}); } };
 }
 
-export function createTraffic(id, y = SPAWN_Y) {
-  return {
-    id,
-    lane: (id * 2 + Math.floor(id / 2)) % LANES.length,
-    y,
-    speed: 34 + (id % 4) * 9,
-    scale: 0.72 + (id % 3) * 0.06,
-    filter: trafficColors[id % trafficColors.length],
-    passed: false
+function Pedal({ name, label, hint, pressed, setPedal }) {
+  const release = event => { setPedal(name, false); if(event?.currentTarget?.hasPointerCapture?.(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); };
+  return <button className={`pedal ${name} ${pressed ? "pressed" : ""}`} aria-label={label} aria-pressed={pressed}
+    onPointerDown={event => { event.preventDefault(); event.currentTarget.setPointerCapture?.(event.pointerId); setPedal(name,true); }}
+    onPointerUp={release} onPointerCancel={release} onLostPointerCapture={()=>setPedal(name,false)} onBlur={release}
+    onKeyDown={event => { if([" ","Enter"].includes(event.key)){ event.preventDefault(); setPedal(name,true); } }}
+    onKeyUp={event => { if([" ","Enter"].includes(event.key)) release(event); }}>
+    <span className="pedal-face" aria-hidden="true"><i/><i/><i/></span><strong>{label}</strong><small>{hint}</small>
+  </button>;
+}
+
+export default function App() {
+  const game = useRef(createInitialGame());
+  const [view, setView] = useState(()=>snapshot(game.current));
+  const [best, setBest] = useState(readBest), bestRef=useRef(best);
+  const [input, setInput] = useState({gas:false,brake:false}), controls=useRef(input);
+  const [soundOn,setSoundOn]=useState(false), soundEnabled=useRef(false), audio=useRef(null);
+  const [renderError,setRenderError]=useState("");
+  const host=useRef(null), stage=useRef(null), runSeed=useRef(1701);
+  const publish=useCallback(()=>setView(snapshot(game.current)),[]);
+  const setPedal=useCallback((name,pressed)=>{
+    controls.current={...controls.current,[name]:pressed && game.current.phase==="running"};
+    setInput(controls.current);
+  },[]);
+  const release=useCallback(()=>{controls.current={gas:false,brake:false};setInput(controls.current);},[]);
+  const start=useCallback(()=>{
+    release(); game.current=createInitialGame(runSeed.current++); game.current.phase="running"; game.current.speed=22;
+    game.current.message="LET'S DRIVE"; game.current.messageTime=2;
+    audio.current?.resume(); publish(); stage.current?.focus();
+  },[publish,release]);
+  const pause=useCallback(()=>{
+    if(!["running","paused"].includes(game.current.phase))return;
+    game.current.phase=game.current.phase==="running"?"paused":"running";
+    release(); publish(); stage.current?.focus();
+  },[publish,release]);
+  const lane=useCallback(direction=>{steer(game.current,direction);publish();},[publish]);
+  const toggleSound=()=>{
+    if(!audio.current) { try {audio.current=createSound();}catch {return;} }
+    audio.current?.resume(); soundEnabled.current=!soundEnabled.current;setSoundOn(soundEnabled.current);
   };
-}
-
-export function hasCollision(car, lane, recovering) {
-  return !recovering && car.lane === lane && car.y >= PLAYER_Y - COLLISION_Y && car.y <= PLAYER_Y + COLLISION_Y;
-}
-
-export function createInitialGame() {
-  return {
-    speed: 0,
-    distance: 0,
-    score: 0,
-    combo: 1,
-    health: 100,
-    lane: 1,
-    targetLane: 1,
-    roadOffset: 0,
-    mountainOffset: 0,
-    skyOffset: 0,
-    shake: 0,
-    traffic: [createTraffic(0, 28), createTraffic(1, -18), createTraffic(2, -62)],
-    nextTrafficId: 3,
-    crashedUntil: 0,
-    impactPulse: 0,
-    message: "Dodge traffic and keep speed",
-    lastFrame: 0
-  };
-}
-
-function useControls() {
-  const inputRef = useRef({ gas: false, brake: false });
-  const [, forceRender] = useState(0);
-
-  const setPedal = useCallback((name, isPressed) => {
-    if (inputRef.current[name] === isPressed) return;
-    inputRef.current = { ...inputRef.current, [name]: isPressed };
-    forceRender(value => value + 1);
-  }, []);
-
-  return [inputRef, inputRef.current, setPedal];
-}
-
-function Meter({ label, value, max, tone = "default" }) {
-  const percent = `${clamp((value / max) * 100, 0, 100)}%`;
-
-  return (
-    <div className="meter">
-      <div className="meter__top">
-        <span>{label}</span>
-        <strong>{Math.round(value)}</strong>
-      </div>
-      <div className={`meter__track meter__track--${tone}`}>
-        <div className="meter__fill" style={{ width: percent }} />
-      </div>
-    </div>
-  );
-}
-
-function PedalButton({ label, type, image, pressed, onPress }) {
-  const hold = isPressed => event => {
-    event.preventDefault();
-    onPress(type, isPressed);
-  };
-
-  return (
-    <button
-      className={`pedalButton ${pressed ? "pedalButton--pressed" : ""}`}
-      type="button"
-      aria-pressed={pressed}
-      onMouseDown={hold(true)}
-      onMouseUp={hold(false)}
-      onMouseLeave={hold(false)}
-      onTouchStart={hold(true)}
-      onTouchEnd={hold(false)}
-      onTouchCancel={hold(false)}
-    >
-      <img src={image} alt="" draggable="false" />
-      <span>{label}</span>
-    </button>
-  );
-}
-
-function LaneButton({ label, direction, onLaneChange }) {
-  return (
-    <button className="laneButton" type="button" onClick={() => onLaneChange(direction)} aria-label={label}>
-      {direction < 0 ? "‹" : "›"}
-    </button>
-  );
-}
-
-function TrafficCar({ car }) {
-  const laneX = LANES[car.lane];
-  const depth = clamp((car.y + 20) / 120, 0.4, 1.12);
-
-  return (
-    <div
-      className={`trafficCar trafficCar--lane${car.lane}`}
-      style={{
-        left: `${50 + laneX}%`,
-        top: `${car.y}%`,
-        transform: `translateX(-50%) scale(${car.scale * depth})`,
-        filter: car.filter,
-        opacity: clamp(depth, 0.45, 1)
-      }}
-      aria-hidden="true"
-    >
-      <img src={carBody} alt="" />
-    </div>
-  );
-}
-
-function App() {
-  const [inputRef, input, setPedal] = useControls();
-  const [game, setGame] = useState(createInitialGame);
-  const gameRef = useRef(game);
-
-  const changeLane = useCallback(direction => {
-    const current = gameRef.current;
-    if (current.crashedUntil > performance.now()) return;
-    const targetLane = nextLane(current.targetLane, direction);
-    gameRef.current = { ...current, targetLane, message: targetLane === current.targetLane ? "Edge of road" : "Lane change" };
-    setGame(gameRef.current);
-  }, []);
-
-  useEffect(() => {
-    const onKeyDown = event => {
-      if (event.repeat) return;
-      if (event.key === "ArrowUp" || event.key === " ") setPedal("gas", true);
-      if (event.key === "ArrowDown") setPedal("brake", true);
-      if (event.key === "ArrowLeft") changeLane(-1);
-      if (event.key === "ArrowRight") changeLane(1);
+  useEffect(()=>{
+    const keydown=event=>{
+      if(event.target instanceof HTMLElement && (event.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)))return;
+      const key=event.key.toLowerCase();
+      if(!["arrowleft","arrowright","a","d","arrowup","arrowdown","w","s"," ","escape","p","enter"].includes(key))return;
+      if((key===" " || key==="enter") && event.target instanceof HTMLElement && event.target.tagName==="BUTTON")return;
+      event.preventDefault();
+      if(key==="enter" && ["ready","crashed"].includes(game.current.phase)){start();return;}
+      if(!event.repeat && ["escape","p"].includes(key)){pause();return;}
+      if(game.current.phase!=="running")return;
+      if(!event.repeat && ["arrowleft","a"].includes(key))lane(-1);
+      if(!event.repeat && ["arrowright","d"].includes(key))lane(1);
+      if(["arrowup","w"," "].includes(key))setPedal("gas",true);
+      if(["arrowdown","s"].includes(key))setPedal("brake",true);
     };
-    const onKeyUp = event => {
-      if (event.key === "ArrowUp" || event.key === " ") setPedal("gas", false);
-      if (event.key === "ArrowDown") setPedal("brake", false);
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("keyup", onKeyUp);
-    };
-  }, [changeLane, setPedal]);
-
-  useEffect(() => {
-    let frameId;
-
-    const tick = timestamp => {
-      const previous = gameRef.current.lastFrame || timestamp;
-      const delta = Math.min((timestamp - previous) / 1000, 0.05);
-      const controls = inputRef.current;
-      const current = gameRef.current;
-      const recovering = timestamp < current.crashedUntil;
-
-      let acceleration = -ROLLING_DRAG - current.speed * 0.035;
-      if (!recovering && controls.gas) acceleration += ACCELERATION;
-      if (controls.brake || recovering) acceleration -= BRAKE_POWER;
-      if (controls.gas && controls.brake) acceleration -= ACCELERATION * 0.7;
-
-      const speed = clamp(current.speed + acceleration * delta, 0, MAX_SPEED);
-      const worldDelta = speed * delta * 0.16;
-      const lane = current.lane + (current.targetLane - current.lane) * Math.min(1, delta * 8.5);
-      const settledLane = Math.abs(lane - current.targetLane) < 0.01 ? current.targetLane : lane;
-
-      let score = current.score + (recovering ? 0 : speed * delta * 0.7 * current.combo);
-      let combo = current.combo;
-      let health = current.health;
-      let message = current.message;
-      let nextTrafficId = current.nextTrafficId;
-      let crashedUntil = current.crashedUntil;
-      let impactPulse = Math.max(0, current.impactPulse - delta * 2.8);
-      const playerLane = Math.round(settledLane);
-
-      let traffic = current.traffic.map(car => ({
-        ...car,
-        y: car.y + Math.max(0.18, speed - car.speed) * delta * 0.18
-      }));
-
-      traffic = traffic.map(car => {
-        if (hasCollision(car, playerLane, recovering)) {
-          health = Math.max(0, health - 26);
-          combo = 1;
-          score = Math.max(0, score - 80);
-          crashedUntil = timestamp + RECOVERY_MS;
-          impactPulse = 1;
-          message = health <= 26 ? "Spinout recovered" : "Impact - recover";
-          return { ...car, y: PASS_Y + 12, passed: true };
-        }
-
-        if (!car.passed && car.y > PASS_Y) {
-          combo = Math.min(combo + 1, 9);
-          score += 90 * combo;
-          message = combo > 2 ? `Clean pass x${combo}` : "Clean pass";
-          return { ...car, passed: true };
-        }
-
-        return car;
-      });
-
-      traffic = traffic.filter(car => car.y < 124);
-      while (traffic.length < 5) {
-        const highest = traffic.reduce((min, car) => Math.min(min, car.y), 20);
-        traffic.push(createTraffic(nextTrafficId, Math.min(SPAWN_Y, highest - 34 - (nextTrafficId % 3) * 12)));
-        nextTrafficId += 1;
+    const keyup=event=>{const key=event.key.toLowerCase();if(["arrowup","w"," "].includes(key))setPedal("gas",false);if(["arrowdown","s"].includes(key))setPedal("brake",false);};
+    const blur=()=>{release();if(game.current.phase==="running"){game.current.phase="paused";publish();}};
+    const visibility=()=>{if(document.hidden)blur();};
+    window.addEventListener("keydown",keydown);window.addEventListener("keyup",keyup);window.addEventListener("blur",blur);document.addEventListener("visibilitychange",visibility);
+    return()=>{window.removeEventListener("keydown",keydown);window.removeEventListener("keyup",keyup);window.removeEventListener("blur",blur);document.removeEventListener("visibilitychange",visibility);};
+  },[lane,pause,publish,release,setPedal,start]);
+  useEffect(()=>{
+    let scene;
+    try {scene=createRoadScene(host.current);} catch {setRenderError("The 3D renderer could not start. Enable hardware acceleration or try another WebGL-capable browser.");return;}
+    let frame,previous=0,lastPublish=0;
+    const reducedMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const tick=now=>{
+      const oldPhase=game.current.phase;
+      stepGame(game.current,controls.current,previous ? (now-previous)/1000 : 0);
+      previous=now; game.current.braking=controls.current.brake;
+      if(oldPhase==="running" && game.current.phase==="crashed"){
+        release();
+        if(game.current.score>bestRef.current){bestRef.current=game.current.score;setBest(game.current.score);try{window.localStorage.setItem(BEST_KEY,String(game.current.score));}catch{/* The run remains playable when storage is unavailable. */}}
+        publish();
       }
-
-      if (health <= 0) {
-        health = 100;
-        score = Math.max(0, score - 300);
-        combo = 1;
-        crashedUntil = timestamp + RECOVERY_MS;
-        impactPulse = 1;
-        message = "Spinout recovered";
-        traffic = traffic.map((car, index) => ({ ...car, y: SPAWN_Y - index * 42, passed: false }));
-      }
-
-      const speedRatio = speed / MAX_SPEED;
-      const nextState = {
-        speed,
-        distance: current.distance + speed * delta * 0.016,
-        score,
-        combo,
-        health,
-        lane: settledLane,
-        targetLane: current.targetLane,
-        roadOffset: (current.roadOffset + worldDelta * 20) % 1600,
-        mountainOffset: (current.mountainOffset + worldDelta * 5) % 1600,
-        skyOffset: (current.skyOffset + worldDelta * 1.4) % 1600,
-        shake: recovering ? 0.5 : clamp((speedRatio - 0.52) * 1.25, 0, 0.38),
-        traffic,
-        nextTrafficId,
-        crashedUntil,
-        impactPulse,
-        message,
-        lastFrame: timestamp
-      };
-
-      gameRef.current = nextState;
-      setGame(nextState);
-      frameId = requestAnimationFrame(tick);
+      audio.current?.update(game.current,soundEnabled.current);
+      scene.render(game.current,now,reducedMotion);
+      if(now-lastPublish>80){publish();lastPublish=now;}
+      frame=requestAnimationFrame(tick);
     };
-
-    frameId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameId);
-  }, [inputRef]);
-
-  const motion = useMemo(() => {
-    const speedRatio = game.speed / MAX_SPEED;
-    const recovering = game.crashedUntil > performance.now();
-    const laneX = LANES[Math.round(game.lane)] + (game.lane - Math.round(game.lane)) * 22;
-    const wheelDuration = `${Math.max(0.15, 1.2 - speedRatio * 1.02)}s`;
-    const carTilt = recovering ? -5 : input.brake ? -1.4 : input.gas ? 1.1 : 0;
-    const carLift = -2 - speedRatio * 7;
-
-    return {
-      wheelDuration,
-      playerTransform: `translateX(calc(-50% + ${laneX}%)) translateY(${carLift}px) rotate(${carTilt}deg)`,
-      worldTransform: `translate3d(${Math.sin(game.distance * 8) * game.shake * 9}px, ${
-        Math.cos(game.distance * 6) * game.shake * 5
-      }px, 0)`
-    };
-  }, [game, input.brake, input.gas]);
-
-  const recovering = game.crashedUntil > performance.now();
-  const isBoosting = input.gas && game.speed > 42 && !recovering;
-
-  return (
-    <main className="gameShell">
-      <section className={`gameStage ${game.impactPulse > 0 ? "gameStage--impact" : ""}`} aria-label="Pedal Rush game">
-        <div className="world" style={{ transform: motion.worldTransform }}>
-          <div className="layer layer--sky" style={{ backgroundImage: `url(${sky})`, backgroundPositionX: `${-game.skyOffset}px` }} />
-          <div
-            className="layer layer--mountains"
-            style={{ backgroundImage: `url(${mountains})`, backgroundPositionX: `${-game.mountainOffset}px` }}
-          />
-          <div className="layer layer--road" style={{ backgroundImage: `url(${road})`, backgroundPositionX: `${-game.roadOffset}px` }} />
-
-          <div className="laneGuide laneGuide--left" />
-          <div className="laneGuide laneGuide--right" />
-
-          <div className="trafficLayer">
-            {game.traffic.map(car => (
-              <TrafficCar key={car.id} car={car} />
-            ))}
-          </div>
-
-          <div
-            className={`carRig ${isBoosting ? "carRig--boosting" : ""} ${recovering ? "carRig--recovering" : ""}`}
-            style={{ transform: motion.playerTransform }}
-          >
-            <img className="smokePuff" src={smoke} alt="" aria-hidden="true" />
-            <img className="flameJet" src={flame} alt="" aria-hidden="true" />
-            <img className="carBody" src={carBody} alt="Blue roadster" draggable="false" />
-            <img className="wheel wheel--front" src={wheel} alt="" style={{ animationDuration: motion.wheelDuration }} />
-            <img className="wheel wheel--rear" src={wheel} alt="" style={{ animationDuration: motion.wheelDuration }} />
-            <span className="speedLines speedLines--top" />
-            <span className="speedLines speedLines--bottom" />
-          </div>
-        </div>
-
-        <div className="hud">
-          <div>
-            <p className="eyebrow">Pedal Rush</p>
-            <h1>{Math.round(game.speed)} mph</h1>
-          </div>
-          <div className="stats">
-            <Meter label="Score" value={game.score} max={2500} />
-            <Meter label="Health" value={game.health} max={100} tone="health" />
-          </div>
-        </div>
-
-        <div className="targetPanel">
-          <span>Traffic run</span>
-          <strong>Lane {Math.round(game.targetLane) + 1}</strong>
-          <small>Combo x{game.combo}</small>
-        </div>
-
-        <div className="laneControls" aria-label="Lane controls">
-          <LaneButton label="Move left" direction={-1} onLaneChange={changeLane} />
-          <LaneButton label="Move right" direction={1} onLaneChange={changeLane} />
-        </div>
-
-        <div className="controlDeck">
-          <PedalButton label="Brake" type="brake" image={brakePedal} pressed={input.brake} onPress={setPedal} />
-          <PedalButton label="Gas" type="gas" image={gasPedal} pressed={input.gas} onPress={setPedal} />
-        </div>
-
-        <div className="statusRail">
-          <span>{recovering ? "Recovering" : input.gas ? "Accelerating" : input.brake ? "Braking" : "Coasting"}</span>
-          <span>{game.message}</span>
-        </div>
-      </section>
-    </main>
-  );
+    frame=requestAnimationFrame(tick);
+    const lost=event=>{event.preventDefault();game.current.phase="paused";release();publish();setRenderError("Graphics connection lost. Reload to reconnect the renderer. Your saved best is safe.");};
+    host.current.addEventListener("webglcontextlost",lost,true);
+    const element=host.current;
+    return()=>{cancelAnimationFrame(frame);element.removeEventListener("webglcontextlost",lost,true);scene.dispose();audio.current?.dispose();audio.current=null;};
+  },[publish,release]);
+  const active=["running","paused"].includes(view.phase);
+  return <main className={`game-shell phase-${view.phase}`} ref={stage} tabIndex={-1} aria-label="Pedal Rush game" data-phase={view.phase}>
+    <div className="scene" ref={host}/><div className="vignette"/>
+    <header className="topbar"><a className="wordmark" href="#" onClick={e=>e.preventDefault()} aria-label="Pedal Rush"><span>Pedal Rush</span></a>
+      <div className="run-stats"><div><small>SCORE</small><strong data-testid="score">{view.score.toLocaleString()}</strong></div><div><small>DISTANCE</small><strong>{(view.distance/1000).toFixed(2)}<em> km</em></strong></div><div className="best-stat"><small>PERSONAL BEST</small><strong>{best.toLocaleString()}</strong></div></div>
+      <div className="top-actions"><button onClick={toggleSound} aria-label={soundOn?"Mute sound":"Enable sound"} title={soundOn?"Mute sound":"Enable sound"}>{soundOn?"SOUND ON":"SOUND OFF"}</button>{active && <button onClick={pause} aria-label={view.phase==="paused"?"Resume":"Pause"}>{view.phase==="paused"?"▶":"Ⅱ"}</button>}</div>
+    </header>
+    <div className="route-label"><span className="route-number">01</span><div>THE COASTLINE<small>GOLDEN HOUR / ENDLESS RUN</small></div></div>
+    {view.phase==="ready" && !renderError && <section className="intro panel" aria-labelledby="start-title"><p className="eyebrow">TRAFFIC RUN</p><h1 id="start-title">Pedal Rush</h1><p className="lede">Four lanes. No finish line.<br/>Find your flow through the coastline traffic.</p><button className="primary" onClick={start}>START RUN <span>↗</span></button><p className="start-hint">PRESS ENTER TO START</p><div className="tutorial"><p><b>← → / A D</b> Change lane</p><p><b>↑ / SPACE</b> Hold gas for a burst</p><p><b>↓ / S</b> Brake for space</p><p><b>P / ESC</b> Take a breather</p></div><p className="mobile-hint">Use the on-screen steering and pedals.<br/>Your car cruises automatically. One impact ends the run.</p></section>}
+    {view.phase==="paused" && !renderError && <div className="modal-backdrop"><section className="pause-panel panel" aria-labelledby="pause-title"><h2 id="pause-title">Run paused</h2><p>The road will wait. Your run is paused.</p><button className="primary" onClick={pause}>RESUME RUN <span>→</span></button><button className="text-button" onClick={start}>Start a new run</button></section></div>}
+    {view.phase==="crashed" && !renderError && <section className="results panel" aria-labelledby="result-title"><p className="eyebrow">{view.score>=best && view.score>0?"NEW PERSONAL BEST":"END OF THE ROAD"}</p><h2 id="result-title">Run complete</h2><div className="result-score">{view.score.toLocaleString()}<small>POINTS</small></div><div className="result-stats"><p><b>{(view.distance/1000).toFixed(2)} km</b>Distance</p><p><b>{view.passes}</b>Overtakes</p><p><b>{view.nearMisses}</b>Close calls</p></div><p>Leave a gap. Brake early. Make the next one count.</p><button className="primary" onClick={start}>DRIVE AGAIN <span>↗</span></button><p className="start-hint">ENTER TO RETRY · BEST {best.toLocaleString()}</p></section>}
+    {renderError && <div className="modal-backdrop"><section className="pause-panel panel" role="alert"><h2>LET'S GET<br/>YOU RUNNING.</h2><p>{renderError}</p><button className="primary" onClick={()=>location.reload()}>RELOAD GAME</button></section></div>}
+    {view.phase==="running" && view.messageTime>0 && <div className="callout" role="status"><span>{view.message}</span>{view.combo>1 && <small>FLOW ×{view.combo}</small>}</div>}
+    <footer className="drive-deck" aria-label="Driving controls">
+      <div className="steering"><button aria-label="Move left" onClick={()=>lane(-1)} disabled={!active}>←</button><button aria-label="Move right" onClick={()=>lane(1)} disabled={!active}>→</button><small>CHANGE LANE</small></div>
+      <div className="instrument"><div className="speed"><strong>{Math.round(view.speed*3.6)}</strong><span>KM/H</span></div><div className="energy-label"><span>{view.boosting?"FULL THROTTLE":"GAS RESERVE"}</span><span>{Math.round(view.boost)}%</span></div><div className="energy-track" role="meter" aria-label="Gas reserve" aria-valuenow={Math.round(view.boost)} aria-valuemin={0} aria-valuemax={100}><i style={{width:`${view.boost}%`}}/></div><small className="lane-status">LANE {view.lane+1} / 4 <span>·</span> {input.brake?"BRAKING":view.boosting?"BOOST":"AUTO CRUISE"}</small></div>
+      <div className="pedals"><Pedal name="brake" label="Brake" hint="↓ / S" pressed={input.brake} setPedal={setPedal}/><Pedal name="gas" label="Gas" hint="↑ / SPACE" pressed={input.gas} setPedal={setPedal}/></div>
+    </footer>
+  </main>;
 }
-
-export default App;

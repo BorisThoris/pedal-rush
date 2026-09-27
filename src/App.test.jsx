@@ -1,34 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import App, { createTraffic, hasCollision, nextLane } from "./App";
+import { fireEvent, render, screen, act } from "@testing-library/react";
+import { vi } from "vitest";
+vi.mock("./game/scene",()=>({createRoadScene:()=>({render:vi.fn(),dispose:vi.fn()})}));
+import App from "./App";
+it("offers an explicit start and accessible gas/brake/steering controls",()=>{render(<App/>);expect(screen.getByRole("heading",{name:/Pedal Rush/})).toBeInTheDocument();for(const name of ["Gas","Brake","Move left","Move right"])expect(screen.getByRole("button",{name})).toBeInTheDocument();fireEvent.click(screen.getByRole("button",{name:/START RUN/}));expect(screen.getByLabelText("Pedal Rush game")).toHaveAttribute("data-phase","running");});
+it("releases held gas and pauses on focus loss; resume retains the lane",()=>{render(<App/>);fireEvent.keyDown(window,{key:"Enter"});fireEvent.keyDown(window,{key:"ArrowRight"});fireEvent.keyDown(window,{key:"ArrowUp"});expect(screen.getByRole("button",{name:"Gas"})).toHaveAttribute("aria-pressed","true");fireEvent.blur(window);expect(screen.getByLabelText("Pedal Rush game")).toHaveAttribute("data-phase","paused");expect(screen.getByRole("button",{name:"Gas"})).toHaveAttribute("aria-pressed","false");fireEvent.click(screen.getByRole("button",{name:/RESUME RUN/}));expect(screen.getByText(/LANE 3 \/ 4/)).toBeInTheDocument();});
+it("restart resets controls, score and lane while preserving best",()=>{window.localStorage.setItem("pedal-rush:coastline-best","1200");render(<App/>);fireEvent.keyDown(window,{key:"Enter"});fireEvent.keyDown(window,{key:"d"});fireEvent.keyDown(window,{key:"p"});fireEvent.click(screen.getByRole("button",{name:"Start a new run"}));expect(screen.getByText(/LANE 2 \/ 4/)).toBeInTheDocument();expect(screen.getByTestId("score")).toHaveTextContent("0");expect(screen.getByText((1200).toLocaleString())).toBeInTheDocument();});
+it("pointer cancellation releases a held pedal",()=>{render(<App/>);fireEvent.keyDown(window,{key:"Enter"});const gas=screen.getByRole("button",{name:"Gas"});fireEvent.pointerDown(gas,{pointerId:1});expect(gas).toHaveAttribute("aria-pressed","true");fireEvent.pointerCancel(gas,{pointerId:1});expect(gas).toHaveAttribute("aria-pressed","false");});
 
-it("renders the upgraded game surface", () => {
-  render(<App />);
-
-  expect(screen.getByLabelText("Pedal Rush game")).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Gas" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Brake" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Move left" })).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Move right" })).toBeInTheDocument();
-});
-
-it("clamps lane changes to the three road lanes", () => {
-  expect(nextLane(0, -1)).toBe(0);
-  expect(nextLane(1, -1)).toBe(0);
-  expect(nextLane(1, 1)).toBe(2);
-  expect(nextLane(2, 1)).toBe(2);
-});
-
-it("detects same-lane traffic collisions only in the player zone", () => {
-  expect(hasCollision({ lane: 1, y: 70 }, 1, false)).toBe(true);
-  expect(hasCollision({ lane: 0, y: 70 }, 1, false)).toBe(false);
-  expect(hasCollision({ lane: 1, y: 40 }, 1, false)).toBe(false);
-  expect(hasCollision({ lane: 1, y: 70 }, 1, true)).toBe(false);
-});
-
-it("creates deterministic traffic inside valid lanes", () => {
-  const traffic = [createTraffic(0), createTraffic(1), createTraffic(2), createTraffic(3)];
-
-  expect(traffic.every(car => car.lane >= 0 && car.lane <= 2)).toBe(true);
-  expect(traffic.every(car => car.passed === false)).toBe(true);
-});
