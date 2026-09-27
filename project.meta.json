@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T14:46:25.695Z",
+  "generatedAt": "2026-09-27T17:30:20.034Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -9,15 +9,15 @@
     "packageName": "pedal-rush",
     "version": "0.1.0",
     "title": "Pedal Rush",
-    "subtitle": "Hold the gas, thread the traffic",
-    "description": "A 2D traffic-dodging game in React: hold gas to accelerate, brake to scrub speed, switch lanes and thread through traffic for score and combo, with collisions costing health and a spinout when it runs out. A requestAnimationFrame game loop with CSS animation, built on Vite.",
+    "subtitle": "A multilane endless traffic run",
+    "description": "An endless four-lane driving game with modeled cars and a coastal road. Steer through fair traffic waves, hold gas for a burst, brake to make space and build a score from overtakes and close calls. Includes keyboard and touch controls, pause, collision results, retry and a saved personal best.",
     "tags": [
       "Game",
+      "Three.js",
       "React",
-      "Vite",
-      "Arcade"
+      "Endless Driving"
     ],
-    "accent": "#84cc16",
+    "accent": "#398cd1",
     "classification": "web-app",
     "showcaseTier": "more"
   },
@@ -31,7 +31,7 @@
     "nodeEngine": "20.x",
     "buildCommand": "npm run build",
     "buildOutput": "build",
-    "runCommand": "npm start",
+    "runCommand": "npm start -- --host 127.0.0.1 --port 4111",
     "devPort": 4111,
     "scripts": [
       "start",
@@ -59,95 +59,90 @@
         "type": "waitFor",
         "target": {
           "role": "button",
-          "name": "Gas"
+          "name": "START RUN"
         },
-        "state": "visible",
-        "label": "wait for the pedals"
+        "state": "visible"
+      },
+      {
+        "type": "click",
+        "target": {
+          "role": "button",
+          "name": "START RUN"
+        },
+        "label": "start a real traffic run"
       },
       {
         "type": "key",
         "key": "ArrowUp",
-        "holdMs": 3000,
-        "label": "hold the gas"
-      },
-      {
-        "type": "press",
-        "key": "ArrowLeft",
-        "label": "switch lane"
-      },
-      {
-        "type": "key",
-        "key": "ArrowUp",
-        "holdMs": 800,
-        "label": "keep the speed"
+        "holdMs": 2600
       }
     ],
-    "waitAfterReadyMs": 300
+    "waitAfterReadyMs": 100
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
+    "directory": "C:/Users/Gaming PC/Documents/Codex/2026-09-27/new-chat/work/publish-pedal/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 132305,
+        "bytes": 151280,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-27T14:46:07.672Z"
+        "capturedAt": "2026-09-27T17:25:21.544Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 129605,
+        "bytes": 145270,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T14:46:12.187Z"
+        "capturedAt": "2026-09-27T17:25:37.532Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 111007,
+        "bytes": 126083,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T14:46:21.073Z"
+        "capturedAt": "2026-09-27T17:26:05.520Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 52776,
+        "bytes": 50185,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-27T14:46:16.602Z"
+        "capturedAt": "2026-09-27T17:25:48.220Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 100202,
+        "bytes": 118852,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-27T14:46:25.545Z"
+        "capturedAt": "2026-09-27T17:26:17.788Z"
       }
     ],
     "trailers": [
       {
         "id": "tour",
-        "title": "Pedal Rush: hold the gas, thread the traffic",
+        "title": "Pedal Rush: a real four-lane traffic run",
         "url": "https://pedal-rush-git.pages.dev/trailers/tour.mp4",
         "poster": "https://pedal-rush-git.pages.dev/trailers/tour.jpg",
         "file": "public/trailers/tour.mp4",
-        "bytes": 4228168,
+        "bytes": 1412025,
         "width": 1280,
         "height": 720,
-        "duration": 22,
+        "duration": 14,
         "orientation": "landscape",
-        "builtAt": "2026-09-27T13:01:03.994Z"
+        "builtAt": "2026-09-27T17:29:44.615Z"
       }
     ]
   },
@@ -167,6 +162,10 @@
         "version": "^18.2.0"
       },
       {
+        "name": "three",
+        "version": "0.180.0"
+      },
+      {
         "name": "vite",
         "version": "^5.4.21"
       }
@@ -175,13 +174,13 @@
       "vitest",
       "@testing-library/react"
     ],
-    "dependencyCount": 2,
+    "dependencyCount": 3,
     "devDependencyCount": 6
   },
   "metrics": {
-    "sourceFiles": 19,
-    "testFiles": 3,
-    "sourceLines": 4107,
+    "sourceFiles": 23,
+    "testFiles": 4,
+    "sourceLines": 3782,
     "largestDirectories": [
       {
         "directory": "scripts",
@@ -189,11 +188,15 @@
       },
       {
         "directory": "src",
-        "files": 7
+        "files": 10
       },
       {
         "directory": ".",
         "files": 2
+      },
+      {
+        "directory": "public",
+        "files": 1
       }
     ],
     "hasReadme": true,
@@ -209,17 +212,17 @@
     "uniquenessScore": 50,
     "maintenanceScore": 44
   },
-  "analysisNotes": "Early hooks animation/demo project; kept visible as archive material with limited visual emphasis.",
+  "analysisNotes": "Playable modeled traffic runner, preserving the original blue car, navy dashboard, gas/brake and lane-control identity. Verified real keyboard/touch runs, collision/retry and persisted best.",
   "git": {
-    "branch": "master",
-    "head": "b8fcfb6",
-    "lastCommitDate": "2026-09-27T17:33:40+03:00",
-    "lastCommitSubject": "Update the metadata toolkit scripts: trailers step, refresh --commit, capture.skip",
-    "commitCount": 43,
-    "remote": "https://github.com/BorisThoris/pedal-rush"
+    "branch": "codex/pedal-coastal-drive",
+    "head": "96fc940",
+    "lastCommitDate": "2026-09-27T20:29:42+03:00",
+    "lastCommitSubject": "Complete modeled four-lane driving while retaining original game identity",
+    "commitCount": 45,
+    "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
     "file": "README.md",
-    "heading": "Pedal Rush"
+    "heading": "Pedal Rush — The Coastline"
   }
 }

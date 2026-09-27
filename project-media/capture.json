@@ -1,8 +1,8 @@
 {
   "slug": "pedal-rush",
-  "capturedAt": "2026-09-27T14:46:25.594Z",
-  "source": "deployment",
-  "url": "https://pedal-rush-git.pages.dev/",
+  "capturedAt": "2026-09-27T17:26:18.326Z",
+  "source": "local",
+  "url": "http://127.0.0.1:4111/",
   "recipe": {
     "route": "/",
     "actions": [
@@ -10,30 +10,25 @@
         "type": "waitFor",
         "target": {
           "role": "button",
-          "name": "Gas"
+          "name": "START RUN"
         },
-        "state": "visible",
-        "label": "wait for the pedals"
+        "state": "visible"
+      },
+      {
+        "type": "click",
+        "target": {
+          "role": "button",
+          "name": "START RUN"
+        },
+        "label": "start a real traffic run"
       },
       {
         "type": "key",
         "key": "ArrowUp",
-        "holdMs": 3000,
-        "label": "hold the gas"
-      },
-      {
-        "type": "press",
-        "key": "ArrowLeft",
-        "label": "switch lane"
-      },
-      {
-        "type": "key",
-        "key": "ArrowUp",
-        "holdMs": 800,
-        "label": "keep the speed"
+        "holdMs": 2600
       }
     ],
-    "waitAfterReadyMs": 300
+    "waitAfterReadyMs": 100
   },
   "profiles": [
     {
@@ -41,14 +36,14 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 132305,
+      "bytes": 151280,
       "status": "captured",
       "stats": {
-        "mean": 123,
-        "std": 48,
+        "mean": 125,
+        "std": 45,
         "dark": 0,
-        "light": 0.01,
-        "colours": 95
+        "light": 0,
+        "colours": 58
       }
     },
     {
@@ -56,14 +51,14 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 129605,
+      "bytes": 145270,
       "status": "captured",
       "stats": {
-        "mean": 134,
-        "std": 35,
+        "mean": 124,
+        "std": 46,
         "dark": 0,
         "light": 0,
-        "colours": 82
+        "colours": 58
       }
     },
     {
@@ -71,14 +66,14 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 52776,
+      "bytes": 50185,
       "status": "captured",
       "stats": {
-        "mean": 120,
-        "std": 47,
+        "mean": 110,
+        "std": 44,
         "dark": 0,
-        "light": 0.019,
-        "colours": 113
+        "light": 0,
+        "colours": 76
       }
     },
     {
@@ -86,14 +81,14 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 111007,
+      "bytes": 126083,
       "status": "captured",
       "stats": {
-        "mean": 134,
-        "std": 35,
+        "mean": 124,
+        "std": 46,
         "dark": 0,
         "light": 0,
-        "colours": 82
+        "colours": 59
       }
     },
     {
@@ -101,14 +96,14 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 100202,
+      "bytes": 118852,
       "status": "captured",
       "stats": {
-        "mean": 131,
-        "std": 36,
+        "mean": 126,
+        "std": 45,
         "dark": 0,
-        "light": 0.011,
-        "colours": 90
+        "light": 0,
+        "colours": 59
       }
     }
   ]
