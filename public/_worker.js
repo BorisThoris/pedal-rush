@@ -20,27 +20,29 @@ export function byteRange(value, size) {
   return { start, end };
 }
 
-function sliceStream(body, start, end) {
+async function readRange(body, start, end, signal) {
   const reader = body.getReader();
+  const result = new Uint8Array(end - start + 1);
   let offset = 0;
-  return new ReadableStream({
-    async pull(controller) {
-      try {
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) { reader.releaseLock(); controller.error(new Error('Video asset ended before the requested byte range')); return; }
-          const before = offset;
-          offset += value.byteLength;
-          if (offset <= start) continue;
-          const piece = value.subarray(Math.max(0, start - before), Math.min(value.byteLength, end + 1 - before));
-          if (piece.byteLength) controller.enqueue(piece);
-          if (offset > end) { controller.close(); await reader.cancel(); reader.releaseLock(); }
-          return;
-        }
-      } catch (error) { reader.releaseLock(); controller.error(error); }
-    },
-    async cancel(reason) { try { await reader.cancel(reason); } finally { reader.releaseLock(); } },
-  });
+  const abort = () => { reader.cancel(signal.reason).catch(() => {}); };
+  signal.addEventListener('abort', abort, { once: true });
+  try {
+    while (offset <= end) {
+      signal.throwIfAborted();
+      const { value, done } = await reader.read();
+      signal.throwIfAborted();
+      if (done) throw new Error('Video asset ended before the requested byte range');
+      const before = offset;
+      offset += value.byteLength;
+      if (offset <= start) continue;
+      const piece = value.subarray(Math.max(0, start - before), Math.min(value.byteLength, end + 1 - before));
+      result.set(piece, Math.max(0, before - start));
+    }
+    return result;
+  } finally {
+    signal.removeEventListener('abort', abort);
+    try { await reader.cancel(); } finally { reader.releaseLock(); }
+  }
 }
 
 export default {
@@ -85,6 +87,9 @@ export default {
     if (!range) return new Response(fixedLength(asset.body, length), { headers: responseHeaders });
     responseHeaders.set('Content-Range', `bytes ${range.start}-${range.end}/${length}`);
     responseHeaders.set('Content-Length', String(range.end - range.start + 1));
-    return new Response(fixedLength(sliceStream(asset.body, range.start, range.end), range.end - range.start + 1), { status: 206, headers: responseHeaders });
+    // Materialize the requested range before publishing it. Returning a sliced
+    // ASSETS stream caused intermittent truncated HTTP/2 reads in production.
+    // Build validation caps each video at 25 MiB; only this range is allocated.
+    return new Response(await readRange(asset.body, range.start, range.end, request.signal), { status: 206, headers: responseHeaders });
   },
 };

@@ -56,17 +56,14 @@ function streamAsset(body, { status = 200, headers = {} } = {}) {
 test('truncated streams reject instead of completing a false Content-Length response', async () => {
   for (const range of ['bytes=0-9', 'bytes=50-59']) {
     const body = new ReadableStream({ start(c) { c.enqueue(bytes.slice(0, 5)); c.close(); } });
-    const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: range } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
-    assert.equal(response.status, 206);
-    await assert.rejects(response.arrayBuffer(), /ended before the requested byte range/);
+    await assert.rejects(worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: range } }), streamAsset(body, { headers: { 'Content-Length': '200' } })), /ended before the requested byte range/);
     assert.equal(body.locked, false);
   }
 });
 
 test('upstream read errors propagate and release the upstream reader', async () => {
   const body = new ReadableStream({ pull(c) { c.error(new Error('upstream disconnected')); } });
-  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=1-20' } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
-  await assert.rejects(response.arrayBuffer(), /upstream disconnected/);
+  await assert.rejects(worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=1-20' } }), streamAsset(body, { headers: { 'Content-Length': '200' } })), /upstream disconnected/);
   assert.equal(body.locked, false);
 });
 
@@ -80,12 +77,16 @@ test('completed ranges cancel unused upstream bytes and release the reader', asy
   assert.equal(body.locked, false);
 });
 
-test('downstream cancellation cancels the upstream and releases its reader', async () => {
+test('request abort cancels a pending range read and releases its reader', async () => {
   let reason;
+  const aborter = new AbortController();
   const body = new ReadableStream({ start(c) { c.enqueue(bytes.slice(0, 10)); }, cancel(value) { reason = value; } });
-  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=0-99' } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
-  await response.body.cancel('viewer closed');
-  assert.equal(reason, 'viewer closed');
+  const pending = worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=0-99' }, signal: aborter.signal }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
+  const rejection = assert.rejects(pending, error => error.name === 'AbortError');
+  await new Promise(resolve => setTimeout(resolve, 0));
+  aborter.abort(new DOMException('viewer closed', 'AbortError'));
+  await rejection;
+  assert.equal(reason.message, 'viewer closed');
   assert.equal(body.locked, false);
 });
 
@@ -120,4 +121,26 @@ test('conditional 304 from static assets is preserved with validators before ran
   assert.equal(response.status, 304);
   assert.equal(response.headers.get('ETag'), '"stable"');
   assert.equal(await response.text(), '');
+});
+
+
+test('multi-megabyte non-aligned ranges materialize every byte before response publication', async () => {
+  const length = 6 * 1024 * 1024, start = 1024 * 1024 + 73, end = 5 * 1024 * 1024 + 139;
+  let offset = 0, cancelled = false;
+  const body = new ReadableStream({ pull(c) {
+    if (offset === length) { c.close(); return; }
+    const chunk = new Uint8Array(Math.min(65521, length - offset));
+    for (let i = 0; i < chunk.length; i++) chunk[i] = (offset + i) % 251;
+    offset += chunk.length; c.enqueue(chunk);
+  }, cancel() { cancelled = true; } });
+  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: `bytes=${start}-${end}` } }), streamAsset(body, { headers: { 'Content-Length': String(length) } }));
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('Content-Length'), String(end - start + 1));
+  assert.equal(cancelled, true);
+  assert.equal(body.locked, false);
+  const actual = new Uint8Array(await response.arrayBuffer());
+  assert.equal(actual.length, end - start + 1);
+  const expected = new Uint8Array(actual.length);
+  for (let i = 0; i < expected.length; i++) expected[i] = (start + i) % 251;
+  assert.deepEqual(actual, expected);
 });
