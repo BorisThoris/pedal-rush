@@ -1,27 +1,17 @@
-import { describe, it, expect } from "vitest";
-import { createInitialGame, addWave, stepGame, steer, sweptCollision, LANES, MAX_SPEED } from "./simulation";
-const running = () => {const game=createInitialGame();game.phase="running";game.speed=32;return game;};
-describe("endless coastline driving",()=>{
-  it("never blocks all four lanes and leaves an adjacent safe exit across 10000 waves",()=>{
-    const game=createInitialGame(19);game.traffic=[];game.distance=10000;
-    for(let i=0;i<10000;i++){const row=addWave(game,100);const cars=game.traffic.filter(car=>car.wave===row.wave);expect(cars.length).toBeLessThan(4);expect(cars.some(car=>car.lane===row.safeLane)).toBe(false);expect(Math.abs(row.safeLane-row.previousSafe)).toBeLessThanOrEqual(1);game.traffic=[];}
-  });
-  it("replays traffic patterns independently from rendering",()=>{expect(createInitialGame(55)).toEqual(createInitialGame(55));expect(createInitialGame(55).traffic).not.toEqual(createInitialGame(56).traffic);});
-  it("does not advance any state while ready, paused or crashed",()=>{for(const phase of ["ready","paused","crashed"]){const game=createInitialGame();game.phase=phase;const before=structuredClone(game);stepGame(game,{gas:true},100);expect(game).toEqual(before);}});
-  it("limits lane travel and allows smooth consecutive changes",()=>{const game=running();steer(game,-1);steer(game,-1);expect(game.targetLane).toBe(0);stepGame(game,{},.05);expect(game.x).toBeGreaterThan(LANES[0]);for(let i=0;i<30;i++)stepGame(game,{},.016);expect(game.x).toBe(LANES[0]);});
-  it("detects swept longitudinal and diagonal contact without rounding lanes",()=>{expect(sweptCollision(LANES[1],LANES[1],20,-20,1)).toBe(true);expect(sweptCollision(LANES[0],LANES[0],20,-20,1)).toBe(false);expect(sweptCollision(LANES[0],LANES[1],3,-3,1)).toBe(true);expect(sweptCollision(LANES[1],LANES[1],30,20,1)).toBe(false);});
-  it("ends the run on actual contact and preserves final score",()=>{const game=running();game.traffic=[{id:0,lane:1,z:4.3,type:0}];stepGame(game,{},.05);expect(game.phase).toBe("crashed");const score=game.score;stepGame(game,{gas:true},1);expect(game.score).toBe(score);});
-  it("awards a close pass once and brakes below cruise speed",()=>{const game=running();game.x=LANES[0];game.targetLane=0;game.traffic=[{id:0,lane:1,z:-4.9,type:0,passed:false}];stepGame(game,{},.05);expect(game.nearMisses).toBe(1);expect(game.bonus).toBe(200);for(let i=0;i<30;i++)stepGame(game,{brake:true},.05);expect(game.bonus).toBe(200);expect(game.speed).toBeLessThan(20);});
-  it("drains and recharges gas without stuttering on empty or lowering score",()=>{const game=running();game.traffic=[];game.nextWaveAt=100000;let score=0;for(let i=0;i<120;i++){stepGame(game,{gas:true},.05);expect(game.score).toBeGreaterThanOrEqual(score);score=game.score;}expect(game.boostLocked).toBe(true);expect(game.speed).toBeLessThanOrEqual(MAX_SPEED);stepGame(game,{},.05);expect(game.boostLocked).toBe(false);expect(game.score).toBeGreaterThanOrEqual(score);});
-  it("keeps traffic bounded and reachable through 20 minutes at full difficulty",()=>{
-    const game=running();game.distance=4000;game.traffic=[];game.trafficProgress=0;game.nextWaveAt=90;game.safeLane=1;
-    let peak=0;
-    for(let i=0;i<24000;i++){
-      const next=game.traffic.filter(car=>car.z>5).sort((a,b)=>a.z-b.z)[0];
-      if(next && next.z<60){const blocked=new Set(game.traffic.filter(car=>car.wave===next.wave).map(car=>car.lane));if(blocked.has(game.targetLane)){const open=[0,1,2,3].filter(lane=>!blocked.has(lane)).sort((a,b)=>Math.abs(a-game.targetLane)-Math.abs(b-game.targetLane));steer(game,Math.sign(open[0]-game.targetLane));}}
-      stepGame(game,{gas:i%200<80},.05);peak=Math.max(peak,game.traffic.length);
-      expect(game.phase,`frame ${i}, distance ${game.distance}`).toBe("running");
-    }
-    expect(game.distance).toBeGreaterThan(50000);expect(game.passes).toBeGreaterThan(500);expect(peak).toBeLessThan(25);
-  });
+import {describe,it,expect} from 'vitest';
+import {createInitialGame,addWave,stepGame,steer,sweptCollision,MAX_SPEED} from './simulation';
+const run=()=>{const game=createInitialGame();game.phase='running';game.traffic=[];game.nextWaveAt=1e9;return game;};
+const advance=(game,input,seconds)=>{for(let i=0;i<seconds*60;i++)stepGame(game,input,1/60);};
+describe('original side-view pedal driving',()=>{
+ it('starts stationary with stationary scenery and wheels until gas is held',()=>{const g=createInitialGame(),before=structuredClone(g);advance(g,{},5);expect(g).toEqual(before);stepGame(g,{gas:true},.05);expect(g.phase).toBe('running');expect(g.speed).toBeGreaterThan(0);});
+ it('gas accelerates, release coasts to rest, and brake stops faster without reversing',()=>{const g=run();advance(g,{gas:true},2);expect(g.speed).toBeCloseTo(76);const coast=structuredClone(g),brake=structuredClone(g);advance(coast,{},.5);advance(brake,{brake:true},.5);expect(brake.speed).toBeLessThan(coast.speed);advance(coast,{},10);advance(brake,{brake:true,gas:true},10);expect(coast.speed).toBe(0);expect(brake.speed).toBe(0);const scroll=coast.scroll,wheel=coast.wheelAngle;advance(coast,{},2);expect(coast.scroll).toBe(scroll);expect(coast.wheelAngle).toBe(wheel);});
+ it('holds the speed limit without boost drain or automatic cruise',()=>{const g=run();advance(g,{gas:true},30);expect(g.speed).toBe(MAX_SPEED);advance(g,{},1);expect(g.speed).toBeLessThan(MAX_SPEED);});
+ it('does not advance while paused or crashed',()=>{for(const phase of ['paused','crashed']){const g=run();g.phase=phase;const before=structuredClone(g);advance(g,{gas:true},5);expect(g).toEqual(before);}});
+ it('uses three smooth bounded lanes',()=>{const g=run();steer(g,-1);steer(g,-1);expect(g.targetLane).toBe(0);stepGame(g,{},.05);expect(g.lane).toBeGreaterThan(0);advance(g,{},1);expect(g.lane).toBe(0);steer(g,1);steer(g,1);steer(g,1);expect(g.targetLane).toBe(2);});
+ it('leaves a reachable adjacent gap in 10000 seeded waves',()=>{const g=run();g.distance=10000;for(let i=0;i<10000;i++){const w=addWave(g,20);expect(g.traffic.length).toBeLessThan(3);expect(g.traffic.some(c=>c.lane===w.safeLane)).toBe(false);expect(Math.abs(w.safeLane-w.previousSafe)).toBeLessThanOrEqual(1);g.traffic=[];}});
+ it('reproduces traffic from a seed',()=>{expect(createInitialGame(99)).toEqual(createInitialGame(99));expect(createInitialGame(99).traffic).not.toEqual(createInitialGame(42).traffic);});
+ it('detects swept contact including lane transitions, but not separated lanes',()=>{expect(sweptCollision(1,1,10,-10,1)).toBe(true);expect(sweptCollision(0,0,10,-10,1)).toBe(false);expect(sweptCollision(0,1,3,-3,1)).toBe(true);});
+ it('damages once per contact and grants recovery before a three-impact finish',()=>{const g=run();g.speed=100;const hit=()=>{g.traffic=[{id:1,lane:1,z:4.3,hit:false}];stepGame(g,{gas:true},.05);};hit();expect(g.health).toBe(66);expect(g.phase).toBe('running');advance(g,{gas:true},.5);expect(g.health).toBe(66);g.traffic=[];advance(g,{},2);hit();expect(g.health).toBe(32);g.traffic=[];advance(g,{},2);hit();expect(g.phase).toBe('crashed');expect(g.health).toBe(0);expect(g.speed).toBe(0);});
+ it('awards each clean overtake once, never a collided car',()=>{const g=run();g.speed=150;g.lane=0;g.targetLane=0;g.traffic=[{id:0,lane:1,z:-5.19,passed:false},{id:1,lane:2,z:-5.19,hit:true,passed:false}];stepGame(g,{gas:true},.05);expect(g.passes).toBe(1);expect(g.bonus).toBe(50);advance(g,{gas:true},1);expect(g.passes).toBe(1);});
+ it('runs twenty minutes with bounded traffic, unbroken safe gaps and increasing score',()=>{const g=createInitialGame();let max=0,score=0;for(let i=0;i<24000;i++){const next=g.traffic.filter(c=>c.z>5).sort((a,b)=>a.z-b.z)[0];if(next&&next.z<11){const blocked=new Set(g.traffic.filter(c=>c.wave===next.wave).map(c=>c.lane));if(blocked.has(g.targetLane)){const safe=[0,1,2].filter(l=>!blocked.has(l)).sort((a,b)=>Math.abs(a-g.targetLane)-Math.abs(b-g.targetLane))[0];steer(g,Math.sign(safe-g.targetLane));}}stepGame(g,{gas:true},.05);max=Math.max(max,g.traffic.length);expect(g.phase).toBe('running');expect(g.health).toBe(100);expect(g.score).toBeGreaterThanOrEqual(score);score=g.score;}expect(g.distance).toBeGreaterThan(70000);expect(g.passes).toBeGreaterThan(100);expect(max).toBeLessThan(15);});
 });
