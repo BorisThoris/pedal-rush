@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T20:21:07.446Z",
+  "generatedAt": "2026-09-27T20:28:14.832Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -129,12 +129,12 @@
         "url": "https://pedal-rush-git.pages.dev/trailers/tour.mp4",
         "poster": "https://pedal-rush-git.pages.dev/trailers/tour.jpg",
         "file": "public/trailers/tour.mp4",
-        "bytes": 3354070,
+        "bytes": 2860540,
         "width": 1440,
         "height": 900,
-        "duration": 20,
+        "duration": 18.97,
         "orientation": "landscape",
-        "builtAt": "2026-09-27T20:20:33.942Z"
+        "builtAt": "2026-09-27T20:27:44.127Z"
       }
     ]
   },
@@ -168,7 +168,7 @@
   "metrics": {
     "sourceFiles": 25,
     "testFiles": 5,
-    "sourceLines": 3638,
+    "sourceLines": 3667,
     "largestDirectories": [
       {
         "directory": "scripts",
@@ -203,10 +203,10 @@
   "analysisNotes": "Original side-view MX-5 and scenery restored from authored assets. Three lanes, real acceleration/coasting/braking, fair traffic, health and retry. Keyboard, simultaneous touch controls, pause and saved best verified in a real browser.",
   "git": {
     "branch": "codex/pedal-coastal-drive",
-    "head": "b8d9d4c",
-    "lastCommitDate": "2026-09-27T23:20:32+03:00",
-    "lastCommitSubject": "Preserve video content length and validate range stream lifecycle",
-    "commitCount": 50,
+    "head": "c30e0c4",
+    "lastCommitDate": "2026-09-27T23:27:42+03:00",
+    "lastCommitSubject": "Complete bounded video ranges before sending partial responses",
+    "commitCount": 52,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {

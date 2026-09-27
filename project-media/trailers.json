@@ -5,25 +5,25 @@
       "id": "tour",
       "title": "Pedal Rush: original MX-5, three-lane drive",
       "kind": "capture",
-      "inputsHash": "41698699660ed914a1a7ec9b8127d3c18215d404978b2622b02dbe67f577b042",
-      "builtAt": "2026-09-27T20:20:33.942Z",
+      "inputsHash": "d4ee42fdd76a17917d52a4f05e2d53bf560baeb4494062f6cb8cd80e4c694977",
+      "builtAt": "2026-09-27T20:27:44.127Z",
       "source": "project-media/.captures/tour.webm",
       "file": "public/trailers/tour.mp4",
       "poster": "public/trailers/tour.jpg",
       "urlPath": "/trailers/tour.mp4",
       "posterUrlPath": "/trailers/tour.jpg",
-      "bytes": 3354070,
+      "bytes": 2860540,
       "width": 1440,
       "height": 900,
-      "duration": 20,
+      "duration": 18.97,
       "fps": 30,
       "orientation": "landscape",
       "stats": {
         "mean": 129,
         "std": 49,
         "dark": 0,
-        "light": 0.007,
-        "colours": 79
+        "light": 0.009,
+        "colours": 81
       }
     }
   ]
