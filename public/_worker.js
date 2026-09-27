@@ -2,6 +2,14 @@
 // responses to seek and reopen MP4s. Only MP4 routes invoke this worker.
 // Filled from the actual build files because ASSETS can omit Content-Length.
 const assetSizes = {};
+function fixedLength(body, length) {
+  // Workers ignores a manually assigned Content-Length on ordinary streams.
+  // Its native stream preserves that header without buffering the whole file.
+  if (typeof FixedLengthStream === 'undefined') return body;
+  const { readable, writable } = new FixedLengthStream(length);
+  body.pipeTo(writable).catch(() => {}); // Source errors also error the readable side.
+  return readable;
+}
 export function byteRange(value, size) {
   if (!value || !/^bytes=\d*-\d*$/.test(value)) return null;
   const [left, right] = value.slice(6).split('-');
@@ -20,18 +28,18 @@ function sliceStream(body, start, end) {
       try {
         while (true) {
           const { value, done } = await reader.read();
-          if (done) { controller.close(); return; }
+          if (done) { reader.releaseLock(); controller.error(new Error('Video asset ended before the requested byte range')); return; }
           const before = offset;
           offset += value.byteLength;
           if (offset <= start) continue;
           const piece = value.subarray(Math.max(0, start - before), Math.min(value.byteLength, end + 1 - before));
           if (piece.byteLength) controller.enqueue(piece);
-          if (offset > end) { controller.close(); await reader.cancel(); }
+          if (offset > end) { controller.close(); await reader.cancel(); reader.releaseLock(); }
           return;
         }
-      } catch (error) { controller.error(error); }
+      } catch (error) { reader.releaseLock(); controller.error(error); }
     },
-    cancel(reason) { return reader.cancel(reason); },
+    async cancel(reason) { try { await reader.cancel(reason); } finally { reader.releaseLock(); } },
   });
 }
 
@@ -45,10 +53,13 @@ export default {
     headers.delete('If-Range');
     // Evaluate the full representation's validators before slicing it.
     const asset = await env.ASSETS.fetch(new Request(request, { method: 'GET', headers }));
-    if (asset.status !== 200) return new Response(request.method === 'HEAD' ? null : asset.body, asset);
+    if (asset.status !== 200) {
+      if (request.method === 'HEAD') await asset.body?.cancel();
+      return new Response(request.method === 'HEAD' ? null : asset.body, asset);
+    }
     if (!asset.headers.get('Content-Type')?.toLowerCase().startsWith('video/mp4')) {
       await asset.body?.cancel();
-      return new Response('Video not found', { status: 404 });
+      return new Response(request.method === 'HEAD' ? null : 'Video not found', { status: 404 });
     }
     const responseHeaders = new Headers(asset.headers);
     responseHeaders.set('Accept-Ranges', 'bytes');
@@ -56,13 +67,14 @@ export default {
     if (!Number.isSafeInteger(length) || length <= 0) {
       // Without a reliable size do not claim partial-response support.
       responseHeaders.delete('Accept-Ranges');
+      if (request.method === 'HEAD') await asset.body?.cancel();
       return new Response(request.method === 'HEAD' ? null : asset.body, { headers: responseHeaders });
     }
     responseHeaders.set('Content-Length', String(length));
     if (request.method === 'HEAD') { await asset.body?.cancel(); return new Response(null, { headers: responseHeaders }); }
     const validatorMatches = !ifRange || (ifRange.startsWith('"')
       ? ifRange === asset.headers.get('ETag')
-      : !ifRange.startsWith('W/') && Number.isFinite(Date.parse(ifRange)) && Date.parse(asset.headers.get('Last-Modified')) <= Date.parse(ifRange));
+      : !ifRange.startsWith('W/') && Number.isFinite(Date.parse(ifRange)) && Date.parse(asset.headers.get('Last-Modified')) === Date.parse(ifRange));
     const range = validatorMatches ? byteRange(requestedRange, length) : null;
     if (range === false) {
       await asset.body?.cancel();
@@ -70,9 +82,9 @@ export default {
       responseHeaders.set('Content-Length', '0');
       return new Response(null, { status: 416, headers: responseHeaders });
     }
-    if (!range) return new Response(asset.body, { headers: responseHeaders });
+    if (!range) return new Response(fixedLength(asset.body, length), { headers: responseHeaders });
     responseHeaders.set('Content-Range', `bytes ${range.start}-${range.end}/${length}`);
     responseHeaders.set('Content-Length', String(range.end - range.start + 1));
-    return new Response(sliceStream(asset.body, range.start, range.end), { status: 206, headers: responseHeaders });
+    return new Response(fixedLength(sliceStream(asset.body, range.start, range.end), range.end - range.start + 1), { status: 206, headers: responseHeaders });
   },
 };

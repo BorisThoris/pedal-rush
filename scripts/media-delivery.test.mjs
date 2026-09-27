@@ -37,3 +37,87 @@ test('nonvideo paths bypass media handling', async () => {
   const response = new Response('static');
   assert.equal(await worker.fetch(new Request('https://example.com/index.html'), { ASSETS: { fetch: async () => response } }), response);
 });
+
+test('If-Range dates require an exact Last-Modified match, not an earlier-or-equal comparison', async () => {
+  for (const date of ['Tue, 31 Dec 2024 00:00:00 GMT', 'Thu, 02 Jan 2025 00:00:00 GMT', 'not-a-date']) {
+    const response = await serve({ Range: 'bytes=1-2', 'If-Range': date });
+    assert.equal(response.status, 200);
+    assert.deepEqual(new Uint8Array(await response.arrayBuffer()), bytes);
+  }
+  const exact = await serve({ Range: 'bytes=1-2', 'If-Range': 'Wed, 01 Jan 2025 00:00:00 GMT' });
+  assert.equal(exact.status, 206);
+  assert.deepEqual(new Uint8Array(await exact.arrayBuffer()), bytes.slice(1, 3));
+});
+
+function streamAsset(body, { status = 200, headers = {} } = {}) {
+  return { ASSETS: { fetch: async () => new Response(body, { status, headers: { 'Content-Type': 'video/mp4', ...headers } }) } };
+}
+
+test('truncated streams reject instead of completing a false Content-Length response', async () => {
+  for (const range of ['bytes=0-9', 'bytes=50-59']) {
+    const body = new ReadableStream({ start(c) { c.enqueue(bytes.slice(0, 5)); c.close(); } });
+    const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: range } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
+    assert.equal(response.status, 206);
+    await assert.rejects(response.arrayBuffer(), /ended before the requested byte range/);
+    assert.equal(body.locked, false);
+  }
+});
+
+test('upstream read errors propagate and release the upstream reader', async () => {
+  const body = new ReadableStream({ pull(c) { c.error(new Error('upstream disconnected')); } });
+  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=1-20' } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
+  await assert.rejects(response.arrayBuffer(), /upstream disconnected/);
+  assert.equal(body.locked, false);
+});
+
+test('completed ranges cancel unused upstream bytes and release the reader', async () => {
+  let cancelled = false;
+  const body = new ReadableStream({ start(c) { c.enqueue(bytes); }, cancel() { cancelled = true; } });
+  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=1-2' } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
+  assert.deepEqual(new Uint8Array(await response.arrayBuffer()), bytes.slice(1, 3));
+  await Promise.resolve();
+  assert.equal(cancelled, true);
+  assert.equal(body.locked, false);
+});
+
+test('downstream cancellation cancels the upstream and releases its reader', async () => {
+  let reason;
+  const body = new ReadableStream({ start(c) { c.enqueue(bytes.slice(0, 10)); }, cancel(value) { reason = value; } });
+  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=0-99' } }), streamAsset(body, { headers: { 'Content-Length': '200' } }));
+  await response.body.cancel('viewer closed');
+  assert.equal(reason, 'viewer closed');
+  assert.equal(body.locked, false);
+});
+
+test('every discarded HEAD body is cancelled, including unknown lengths, failures and HTML fallback', async () => {
+  for (const options of [{}, { status: 404 }, { headers: { 'Content-Type': 'text/html' } }]) {
+    let cancelled = false;
+    const body = new ReadableStream({ start(c) { c.enqueue(bytes); }, cancel() { cancelled = true; } });
+    const response = await worker.fetch(new Request('https://example.com/test.mp4', { method: 'HEAD' }), streamAsset(body, options));
+    assert.equal(await response.text(), '');
+    assert.equal(cancelled, true);
+    assert.equal(response.status, options.status ?? (options.headers ? 404 : 200));
+    assert.equal(response.headers.get('Accept-Ranges'), null);
+  }
+});
+
+test('unknown sizes return a full response without claiming range support', async () => {
+  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=1-2' } }), streamAsset(bytes));
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('Accept-Ranges'), null);
+  assert.equal(response.headers.get('Content-Range'), null);
+  assert.deepEqual(new Uint8Array(await response.arrayBuffer()), bytes);
+});
+
+test('conditional 304 from static assets is preserved with validators before range handling', async () => {
+  const response = await worker.fetch(new Request('https://example.com/test.mp4', { headers: { Range: 'bytes=1-2', 'If-None-Match': '"stable"' } }), {
+    ASSETS: { fetch: async request => {
+      assert.equal(request.headers.get('If-None-Match'), '"stable"');
+      assert.equal(request.headers.get('Range'), null);
+      return new Response(null, { status: 304, headers: { ETag: '"stable"' } });
+    } },
+  });
+  assert.equal(response.status, 304);
+  assert.equal(response.headers.get('ETag'), '"stable"');
+  assert.equal(await response.text(), '');
+});
