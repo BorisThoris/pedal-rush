@@ -1,6 +1,6 @@
 {
   "slug": "pedal-rush",
-  "capturedAt": "2026-09-27T13:05:32.101Z",
+  "capturedAt": "2026-09-27T14:46:25.594Z",
   "source": "deployment",
   "url": "https://pedal-rush-git.pages.dev/",
   "recipe": {
@@ -41,14 +41,14 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 129335,
+      "bytes": 132305,
       "status": "captured",
       "stats": {
-        "mean": 124,
+        "mean": 123,
         "std": 48,
         "dark": 0,
-        "light": 0.009,
-        "colours": 88
+        "light": 0.01,
+        "colours": 95
       }
     },
     {
@@ -56,14 +56,14 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 130523,
+      "bytes": 129605,
       "status": "captured",
       "stats": {
         "mean": 134,
         "std": 35,
         "dark": 0,
         "light": 0,
-        "colours": 87
+        "colours": 82
       }
     },
     {
@@ -71,14 +71,14 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 52649,
+      "bytes": 52776,
       "status": "captured",
       "stats": {
         "mean": 120,
         "std": 47,
         "dark": 0,
         "light": 0.019,
-        "colours": 109
+        "colours": 113
       }
     },
     {
@@ -86,14 +86,14 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 111481,
+      "bytes": 111007,
       "status": "captured",
       "stats": {
         "mean": 134,
         "std": 35,
         "dark": 0,
         "light": 0,
-        "colours": 87
+        "colours": 82
       }
     },
     {
@@ -101,14 +101,14 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 99871,
+      "bytes": 100202,
       "status": "captured",
       "stats": {
         "mean": 131,
         "std": 36,
         "dark": 0,
-        "light": 0.01,
-        "colours": 87
+        "light": 0.011,
+        "colours": 90
       }
     }
   ]
