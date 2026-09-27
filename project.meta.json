@@ -203,10 +203,10 @@
   "analysisNotes": "Original side-view MX-5 and scenery restored from authored assets. Three lanes, real acceleration/coasting/braking, fair traffic, health and retry. Keyboard, simultaneous touch controls, pause and saved best verified in a real browser.",
   "git": {
     "branch": "codex/pedal-coastal-drive",
-    "head": "0246612",
-    "lastCommitDate": "2026-09-27T23:29:00+03:00",
-    "lastCommitSubject": "Load worker tests as explicit ES modules in legacy packages",
-    "commitCount": 54,
+    "head": "243abd6",
+    "lastCommitDate": "2026-09-27T23:29:53+03:00",
+    "lastCommitSubject": "Merge generated metadata while retaining verified release captures",
+    "commitCount": 56,
     "remote": "https://github.com/BorisThoris/pedal-rush.git"
   },
   "readme": {
