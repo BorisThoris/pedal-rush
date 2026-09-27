@@ -1,8 +1,8 @@
 {
   "slug": "pedal-rush",
-  "capturedAt": "2026-09-27T17:26:18.326Z",
-  "source": "local",
-  "url": "http://127.0.0.1:4111/",
+  "capturedAt": "2026-09-27T17:36:27.320Z",
+  "source": "deployment",
+  "url": "https://pedal-rush-git.pages.dev/",
   "recipe": {
     "route": "/",
     "actions": [
@@ -36,14 +36,14 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 151280,
+      "bytes": 147607,
       "status": "captured",
       "stats": {
         "mean": 125,
         "std": 45,
         "dark": 0,
         "light": 0,
-        "colours": 58
+        "colours": 59
       }
     },
     {
@@ -51,14 +51,14 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 145270,
+      "bytes": 140946,
       "status": "captured",
       "stats": {
         "mean": 124,
-        "std": 46,
+        "std": 45,
         "dark": 0,
         "light": 0,
-        "colours": 58
+        "colours": 61
       }
     },
     {
@@ -66,14 +66,14 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 50185,
+      "bytes": 50605,
       "status": "captured",
       "stats": {
-        "mean": 110,
-        "std": 44,
+        "mean": 109,
+        "std": 43,
         "dark": 0,
         "light": 0,
-        "colours": 76
+        "colours": 81
       }
     },
     {
@@ -81,14 +81,14 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 126083,
+      "bytes": 117891,
       "status": "captured",
       "stats": {
         "mean": 124,
-        "std": 46,
+        "std": 45,
         "dark": 0,
         "light": 0,
-        "colours": 59
+        "colours": 61
       }
     },
     {
@@ -96,14 +96,14 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 118852,
+      "bytes": 112360,
       "status": "captured",
       "stats": {
         "mean": 126,
         "std": 45,
         "dark": 0,
         "light": 0,
-        "colours": 59
+        "colours": 55
       }
     }
   ]
