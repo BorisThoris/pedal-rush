@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import worker from '../public/_worker.js';
+import { readFile } from 'node:fs/promises';
+// The deployed worker is ESM even in legacy CommonJS application packages.
+const { default: worker } = await import('data:text/javascript;base64,' + Buffer.from(await readFile(new URL('../public/_worker.js', import.meta.url))).toString('base64'));
 const bytes = Uint8Array.from({ length: 200 }, (_, i) => i);
 function serve(headers = {}, method = 'GET', options = {}) {
   const env = { ASSETS: { fetch: async request => {
