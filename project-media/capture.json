@@ -1,6 +1,6 @@
 {
   "slug": "pedal-rush",
-  "capturedAt": "2026-11-11T21:18:14.731Z",
+  "capturedAt": "2026-11-11T23:57:18.226Z",
   "source": "deployment",
   "url": "https://pedal-rush-git.pages.dev/",
   "recipe": {
@@ -29,14 +29,14 @@
       "file": "card.jpg",
       "width": 1600,
       "height": 900,
-      "bytes": 144953,
+      "bytes": 142972,
       "status": "captured",
       "stats": {
         "mean": 129,
-        "std": 48,
+        "std": 49,
         "dark": 0,
-        "light": 0.003,
-        "colours": 83
+        "light": 0.004,
+        "colours": 81
       }
     },
     {
@@ -44,14 +44,14 @@
       "file": "desktop.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 133615,
+      "bytes": 131204,
       "status": "captured",
       "stats": {
         "mean": 129,
         "std": 49,
         "dark": 0,
-        "light": 0.009,
-        "colours": 85
+        "light": 0.006,
+        "colours": 74
       }
     },
     {
@@ -59,14 +59,14 @@
       "file": "mobile.jpg",
       "width": 430,
       "height": 932,
-      "bytes": 46844,
+      "bytes": 45297,
       "status": "captured",
       "stats": {
         "mean": 127,
-        "std": 51,
+        "std": 52,
         "dark": 0,
-        "light": 0.012,
-        "colours": 88
+        "light": 0.016,
+        "colours": 85
       }
     },
     {
@@ -74,14 +74,14 @@
       "file": "full.jpg",
       "width": 1440,
       "height": 900,
-      "bytes": 112506,
+      "bytes": 110674,
       "status": "captured",
       "stats": {
         "mean": 129,
         "std": 49,
         "dark": 0,
         "light": 0.008,
-        "colours": 83
+        "colours": 81
       }
     },
     {
@@ -89,14 +89,14 @@
       "file": "og.jpg",
       "width": 1200,
       "height": 630,
-      "bytes": 110321,
+      "bytes": 107209,
       "status": "captured",
       "stats": {
         "mean": 117,
-        "std": 51,
+        "std": 52,
         "dark": 0,
         "light": 0,
-        "colours": 80
+        "colours": 77
       }
     }
   ]

@@ -1,7 +1,7 @@
 {
   "$schema": "./scripts/project.meta.schema.json",
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T20:34:49.796Z",
+  "generatedAt": "2026-11-11T23:57:18.955Z",
   "generatedBy": "scripts/generate-project-meta.mjs",
   "identity": {
     "slug": "pedal-rush",
@@ -73,53 +73,53 @@
   },
   "media": {
     "source": "repo-local",
-    "directory": "/home/runner/work/pedal-rush/pedal-rush/project-media",
+    "directory": "/root/gha/runners/pedal-rush/_work/pedal-rush/pedal-rush/project-media",
     "primary": "project-media/card.jpg",
     "images": [
       {
         "profile": "card",
         "file": "card.jpg",
         "path": "project-media/card.jpg",
-        "bytes": 143145,
+        "bytes": 142972,
         "width": 1600,
         "height": 900,
-        "capturedAt": "2026-09-27T20:34:23.125Z"
+        "capturedAt": "2026-11-11T23:56:38.779Z"
       },
       {
         "profile": "desktop",
         "file": "desktop.jpg",
         "path": "project-media/desktop.jpg",
-        "bytes": 131271,
+        "bytes": 131204,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T20:34:29.696Z"
+        "capturedAt": "2026-11-11T23:56:48.111Z"
       },
       {
         "profile": "full",
         "file": "full.jpg",
         "path": "project-media/full.jpg",
-        "bytes": 110949,
+        "bytes": 110674,
         "width": 1440,
         "height": 900,
-        "capturedAt": "2026-09-27T20:34:43.102Z"
+        "capturedAt": "2026-11-11T23:57:07.903Z"
       },
       {
         "profile": "mobile",
         "file": "mobile.jpg",
         "path": "project-media/mobile.jpg",
-        "bytes": 45980,
+        "bytes": 45297,
         "width": 430,
         "height": 932,
-        "capturedAt": "2026-09-27T20:34:36.514Z"
+        "capturedAt": "2026-11-11T23:56:57.835Z"
       },
       {
         "profile": "og",
         "file": "og.jpg",
         "path": "project-media/og.jpg",
-        "bytes": 107809,
+        "bytes": 107209,
         "width": 1200,
         "height": 630,
-        "capturedAt": "2026-09-27T20:34:49.642Z"
+        "capturedAt": "2026-11-11T23:57:17.575Z"
       }
     ],
     "trailers": [
@@ -203,10 +203,10 @@
   "analysisNotes": "Original side-view MX-5 and scenery restored from authored assets. Three lanes, real acceleration/coasting/braking, fair traffic, health and retry. Keyboard, simultaneous touch controls, pause and saved best verified in a real browser.",
   "git": {
     "branch": "master",
-    "head": "309ba37",
-    "lastCommitDate": "2026-09-27T23:32:00+03:00",
-    "lastCommitSubject": "Run video delivery regressions in the media verification gate",
-    "commitCount": 57,
+    "head": "89a9b9e",
+    "lastCommitDate": "2026-11-12T01:37:15+02:00",
+    "lastCommitSubject": "Republish the link-preview card from the new screenshots",
+    "commitCount": 61,
     "remote": "https://github.com/BorisThoris/pedal-rush"
   },
   "readme": {
